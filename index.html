@@ -1563,57 +1563,8 @@ body {
   border: 1px solid rgba(255,255,255,0.3);
 }
 
-/* Game Mode Card Styles - Android Optimized */
-.mode-card {
-  transition: all 0.3s ease;
-}
 
-.mode-card:active {
-  transform: scale(0.95);
-  opacity: 0.8;
-}
 
-#start-game-btn:active {
-  transform: scale(0.95);
-  background: rgba(255, 140, 0, 0.6) !important;
-}
-
-/* Pumpkin Game Styles - Android Optimized */
-.pumpkin-item {
-  position: absolute;
-  width: 65px;
-  height: 65px;
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position: center;
-  cursor: pointer;
-  transition: transform 0.1s ease;
-  z-index: 5;
-  animation: float 2s ease-in-out infinite;
-  touch-action: manipulation;
-}
-
-.pumpkin-item:active {
-  transform: scale(1.2);
-}
-
-.tnt-item {
-  position: absolute;
-  width: 65px;
-  height: 65px;
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position: center;
-  cursor: pointer;
-  transition: transform 0.1s ease;
-  z-index: 5;
-  animation: shake 0.5s ease-in-out infinite;
-  touch-action: manipulation;
-}
-
-.tnt-item:active {
-  transform: scale(1.2);
-}
 
 /* Loading Circle for Pumpkin Items Only */
 .pumpkin-loading {
@@ -8277,6 +8228,529 @@ window.RulesSystem = {
     showRuleAnswer
 };
 
+// ===== INVITE SYSTEM =====
+
+// Invite system variables
+let userInviteCode = localStorage.getItem('userInviteCode') || '';
+let usedFriendCodes = JSON.parse(localStorage.getItem('usedFriendCodes')) || [];
+let inviteCoinsClaimed = parseInt(localStorage.getItem('inviteCoinsClaimed')) || 0;
+let myCodeUsedByOthers = JSON.parse(localStorage.getItem('myCodeUsedByOthers')) || [];
+let hasUsedFriendCode = localStorage.getItem('hasUsedFriendCode') === 'true';
+const INVITE_REWARD = 500; // Changed from 100 to 500
+
+// Generate or retrieve user's invite code
+function generateInviteCode() {
+    if (!userInviteCode) {
+        const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+        let code = '';
+        for (let i = 0; i < 10; i++) {
+            code += chars.charAt(Math.floor(Math.random() * chars.length));
+        }
+        userInviteCode = code;
+        localStorage.setItem('userInviteCode', userInviteCode);
+    }
+    return userInviteCode;
+}
+
+// Create Invite Screen HTML
+function createInviteScreen() {
+    const inviteScreen = document.createElement('div');
+    inviteScreen.id = 'invite-screen';
+    inviteScreen.style.cssText = 'display: none; width: 100vw; height: 100vh; background: linear-gradient(135deg, #1a2a6c, #2a4abd, #3a6aff); position: fixed; top: 0; left: 0; z-index: 1000; overflow-y: auto; color: white; padding: 15px;';
+    
+    inviteScreen.innerHTML = `
+        <button class="back-btn" id="back-invite" style="position: absolute; top: 15px; left: 15px; padding: 8px 16px; font-size: 14px; border: none; border-radius: 6px; background: #007bff; color: white; cursor: pointer; display: flex; align-items: center; z-index: 5;">Home</button>
+        
+        <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100%; padding: 10px;">
+            <div style="background: rgba(0,0,0,0.8); padding: 20px; border-radius: 12px; text-align: center; width: 100%; max-width: 350px; border: 2px solid rgba(255,255,255,0.3);">
+                
+                <!-- My Code Section -->
+                <div style="margin-bottom: 20px;">
+                    <h3 style="color: #ffcc00; margin-bottom: 12px; font-size: 18px; text-shadow: 0 2px 4px rgba(0,0,0,0.5);">သင့်ရဲ့ Invite Code</h3>
+                    <div id="my-invite-code" style="background: rgba(255,255,255,0.15); padding: 12px; border-radius: 8px; font-size: 20px; font-weight: bold; letter-spacing: 1px; color: #90ee90; margin-bottom: 10px; font-family: monospace; border: 1px solid rgba(255,255,255,0.2);">
+                        Loading...
+                    </div>
+                    <button class="btn" id="share-code-btn" style="background: #0088cc; padding: 10px 16px; font-size: 14px; border-radius: 6px; width: 100%; border: none; color: white; font-weight: bold; cursor: pointer; margin-bottom: 8px;">
+                        My Code Share မည်
+                    </button>
+                    <div style="font-size: 12px; color: #ddd; opacity: 0.8;">
+                        သူငယ်ချင်းများအား Codeပေးပြီး Coins 500 စီရယူပါ <!-- Changed from 100 to 500 -->
+                    </div>
+                </div>
+                
+                <!-- Friend Code Input Section -->
+                <div id="friend-code-section" style="margin-bottom: 20px; ${hasUsedFriendCode ? 'display: none;' : ''}">
+                    <h3 style="color: #ffcc00; margin-bottom: 12px; font-size: 18px; text-shadow: 0 2px 4px rgba(0,0,0,0.5);">သူငယ်ချင်း Code ထည့်ပါ</h3>
+                    <input type="text" id="friend-code-input" placeholder="သူငယ်ချင်း Code ထည့်ပါ" style="width: 100%; padding: 10px; border: none; border-radius: 6px; font-size: 14px; text-align: center; margin-bottom: 12px; background: rgba(255,255,255,0.9); color: black; border: 1px solid rgba(255,255,255,0.3);">
+                    <button class="btn" id="submit-friend-code-btn" style="background: #28a745; padding: 10px 16px; font-size: 14px; border-radius: 6px; width: 100%; border: none; color: white; font-weight: bold; cursor: pointer;">
+                        Code ထည့်မည်
+                    </button>
+                    <div id="invite-result" style="display: none; margin-top: 12px; padding: 8px; border-radius: 5px; font-weight: bold; font-size: 13px;"></div>
+                </div>
+                
+                <!-- Used Message Section -->
+                <div id="used-message-section" style="margin-bottom: 20px; ${!hasUsedFriendCode ? 'display: none;' : ''}">
+                    <div style="background: rgba(255,255,255,0.1); padding: 15px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.2);">
+                        <div style="color: #ff6b6b; font-size: 16px; font-weight: bold; margin-bottom: 8px;">
+                            သင်သည် ကူညီခွင့်ကုန်သွားပါပြီ
+                        </div>
+                        <div style="color: #ddd; font-size: 13px; line-height: 1.4;">
+                            လူသစ်များကို ကူညီခိုင်းပါ
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Stats Section -->
+                <div style="padding-top: 15px; border-top: 1px solid rgba(255,255,255,0.2);">
+                    <div style="display: flex; justify-content: space-around; font-size: 13px; color: #ddd;">
+                        <div style="text-align: center;">
+                            <div style="color: #ffcc00; font-weight: bold; font-size: 16px;" id="invite-coins-earned">${inviteCoinsClaimed}</div>
+                            <div style="font-size: 11px; opacity: 0.8;">ရရှိပြီး Coins</div>
+                        </div>
+                        <div style="text-align: center;">
+                            <div style="color: #90ee90; font-weight: bold; font-size: 16px;" id="invite-friends-count">${usedFriendCodes.length}</div>
+                            <div style="font-size: 11px; opacity: 0.8;">ဖိတ်ခေါ်ပြီးသူ</div>
+                        </div>
+                        <div style="text-align: center;">
+                            <div style="color: #00ccff; font-weight: bold; font-size: 16px;" id="my-code-used-count">${myCodeUsedByOthers.length}</div>
+                            <div style="font-size: 11px; opacity: 0.8;">My Codeသုံးသူ</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    `;
+    
+    document.body.appendChild(inviteScreen);
+    return inviteScreen;
+}
+
+// Add Invite Button to Sidebar
+function addInviteButtonToSidebar() {
+    const sidebarButtons = document.getElementById('sidebar-buttons');
+    if (sidebarButtons && !document.getElementById('invite-btn')) {
+        const inviteBtn = document.createElement('button');
+        inviteBtn.className = 'sidebar-btn';
+        inviteBtn.id = 'invite-btn';
+        inviteBtn.innerHTML = '<span>ဖိတ်ခေါမည်</span>';
+        sidebarButtons.appendChild(inviteBtn);
+    }
+}
+
+// Initialize Invite System
+function initializeInviteSystem() {
+    // Add button to sidebar
+    addInviteButtonToSidebar();
+    
+    // Create invite screen
+    const inviteScreen = createInviteScreen();
+    
+    // Get DOM elements
+    const inviteBtn = document.getElementById('invite-btn');
+    const backInvite = document.getElementById('back-invite');
+    const myInviteCode = document.getElementById('my-invite-code');
+    const shareCodeBtn = document.getElementById('share-code-btn');
+    const friendCodeSection = document.getElementById('friend-code-section');
+    const friendCodeInput = document.getElementById('friend-code-input');
+    const submitFriendCodeBtn = document.getElementById('submit-friend-code-btn');
+    const usedMessageSection = document.getElementById('used-message-section');
+    const inviteResult = document.getElementById('invite-result');
+    const mainScreen = document.getElementById('main-screen');
+
+    // Update invite code display
+    function updateInviteDisplay() {
+        if (myInviteCode) {
+            myInviteCode.textContent = generateInviteCode();
+        }
+        
+        // Update stats
+        const inviteCoinsEarned = document.getElementById('invite-coins-earned');
+        const inviteFriendsCount = document.getElementById('invite-friends-count');
+        const myCodeUsedCount = document.getElementById('my-code-used-count');
+        
+        if (inviteCoinsEarned) inviteCoinsEarned.textContent = inviteCoinsClaimed;
+        if (inviteFriendsCount) inviteFriendsCount.textContent = usedFriendCodes.length;
+        if (myCodeUsedCount) myCodeUsedCount.textContent = myCodeUsedByOthers.length;
+    }
+
+    // Update UI based on usage status
+    function updateUsageUI() {
+        if (hasUsedFriendCode) {
+            friendCodeSection.style.display = 'none';
+            usedMessageSection.style.display = 'block';
+        } else {
+            friendCodeSection.style.display = 'block';
+            usedMessageSection.style.display = 'none';
+        }
+    }
+
+    // Share code via Telegram
+    shareCodeBtn.addEventListener('click', () => {
+        const shareText = `ကျွန်တော် Code ကိုအသုံးပြုပြီး 
+Coins 500 ရယူလိုက်ပါ <!-- Changed from 100 to 500 -->
+Code - ${userInviteCode}
+https://starlar1.github.io/SC-Event-Season-2/`;
+
+        const telegramUrl = `https://t.me/share/url?url=${encodeURIComponent('https://starlar1.github.io/SC-Event-Season-2/')}&text=${encodeURIComponent(shareText)}`;
+        
+        window.open(telegramUrl, '_blank');
+        
+        // Show success message
+        showInviteResult('Telegram သို့ Share လုပ်ပြီးပါပြီ!', 'success');
+    });
+
+    // Submit friend code
+    submitFriendCodeBtn.addEventListener('click', async () => {
+        const friendCode = friendCodeInput.value.trim().toUpperCase();
+        
+        if (!friendCode) {
+            showInviteResult('ကျေးဇူးပြု၍ Code ထည့်သွင်းပါ', 'error');
+            return;
+        }
+        
+        if (friendCode === userInviteCode) {
+            showInviteResult('မိမိကိုယ်တိုင် Code ကို မသုံးနိုင်ပါ', 'error');
+            return;
+        }
+        
+        if (usedFriendCodes.includes(friendCode)) {
+            showInviteResult('ဤ Code ကို အသုံးပြုပြီးသားဖြစ်ပါသည်', 'error');
+            return;
+        }
+        
+        if (hasUsedFriendCode) {
+            showInviteResult('သင့်တွင် ထပ်မံကူညီခွင့်မရှိပါ', 'error');
+            return;
+        }
+        
+        try {
+            submitFriendCodeBtn.disabled = true;
+            submitFriendCodeBtn.textContent = 'စစ်ဆေးနေသည်...';
+            submitFriendCodeBtn.style.background = '#6c757d';
+            
+            const friendData = await checkFriendCodeExists(friendCode);
+            
+            if (friendData.exists) {
+                // Give reward to current user
+                coins += INVITE_REWARD;
+                if (coinCountElem) coinCountElem.textContent = coins;
+                inviteCoinsClaimed += INVITE_REWARD;
+                
+                usedFriendCodes.push(friendCode);
+                hasUsedFriendCode = true;
+                
+                localStorage.setItem('usedFriendCodes', JSON.stringify(usedFriendCodes));
+                localStorage.setItem('inviteCoinsClaimed', inviteCoinsClaimed);
+                localStorage.setItem('hasUsedFriendCode', 'true');
+                
+                // Give reward to friend user
+                await giveRewardToFriend(friendData.userId, friendCode);
+                
+                saveGameState();
+
+                showInviteResult(`အောင်မြင်ပါသည်! ${INVITE_REWARD} Coins ရရှိပါသည်`, 'success');
+                friendCodeInput.value = '';
+                
+                // Hide input section and show used message
+                updateUsageUI();
+                updateInviteDisplay();
+            } else {
+                showInviteResult('User မရှိပါ', 'error');
+            }
+        } catch (error) {
+            console.error('Error checking friend code:', error);
+            showInviteResult('Server error occurred', 'error');
+        } finally {
+            submitFriendCodeBtn.disabled = false;
+            submitFriendCodeBtn.textContent = 'Code ထည့်မည်';
+            submitFriendCodeBtn.style.background = '#28a745';
+        }
+    });
+
+    // Check if friend code exists in Supabase and get user data
+    async function checkFriendCodeExists(friendCode) {
+        try {
+            const servers = Object.keys(SUPABASE_SERVERS);
+            
+            for (const server of servers) {
+                if (!SUPABASE_SERVERS[server].enabled) continue;
+                
+                try {
+                    const tempSupabase = window.supabase.createClient(
+                        SUPABASE_SERVERS[server].url, 
+                        SUPABASE_SERVERS[server].key
+                    );
+                    
+                    const { data, error } = await tempSupabase
+                        .from('users')
+                        .select('user_id, invite_code, coins, my_code_used_by_others')
+                        .eq('invite_code', friendCode)
+                        .single();
+                    
+                    if (data && !error) {
+                        return {
+                            exists: true,
+                            userId: data.user_id,
+                            inviteCode: data.invite_code,
+                            currentCoins: data.coins || 0,
+                            myCodeUsedByOthers: data.my_code_used_by_others || []
+                        };
+                    }
+                } catch (serverError) {
+                    console.error(`Error checking server ${server}:`, serverError);
+                    continue;
+                }
+            }
+            return { exists: false };
+        } catch (error) {
+            console.error('Error in checkFriendCodeExists:', error);
+            throw error;
+        }
+    }
+
+    // Give reward to friend user
+    async function giveRewardToFriend(friendUserId, friendCode) {
+        try {
+            const servers = Object.keys(SUPABASE_SERVERS);
+            
+            for (const server of servers) {
+                if (!SUPABASE_SERVERS[server].enabled) continue;
+                
+                try {
+                    const tempSupabase = window.supabase.createClient(
+                        SUPABASE_SERVERS[server].url, 
+                        SUPABASE_SERVERS[server].key
+                    );
+                    
+                    // Get current friend data
+                    const { data: friendData, error: getError } = await tempSupabase
+                        .from('users')
+                        .select('coins, my_code_used_by_others')
+                        .eq('user_id', friendUserId)
+                        .single();
+                    
+                    if (getError) continue;
+                    
+                    // Update friend's coins and used codes
+                    const newCoins = (friendData.coins || 0) + INVITE_REWARD;
+                    const updatedUsedCodes = [...(friendData.my_code_used_by_others || []), currentUser.uid];
+                    
+                    const { error: updateError } = await tempSupabase
+                        .from('users')
+                        .update({
+                            coins: newCoins,
+                            my_code_used_by_others: updatedUsedCodes,
+                            updated_at: new Date().toISOString()
+                        })
+                        .eq('user_id', friendUserId);
+                    
+                    if (!updateError) {
+                        console.log(`Reward given to friend ${friendUserId} on server ${server}`);
+                        return true;
+                    }
+                } catch (serverError) {
+                    console.error(`Error giving reward on server ${server}:`, serverError);
+                    continue;
+                }
+            }
+            return false;
+        } catch (error) {
+            console.error('Error in giveRewardToFriend:', error);
+            throw error;
+        }
+    }
+
+    // Check if someone used my code and give me reward
+    async function checkMyCodeUsage() {
+        try {
+            const { data, error } = await supabase
+                .from('users')
+                .select('my_code_used_by_others')
+                .eq('user_id', currentUser.uid)
+                .single();
+            
+            if (data && data.my_code_used_by_others) {
+                const newUsers = data.my_code_used_by_others.filter(userId => 
+                    !myCodeUsedByOthers.includes(userId)
+                );
+                
+                if (newUsers.length > 0) {
+                    // Give reward for each new user who used my code
+                    const totalReward = newUsers.length * INVITE_REWARD; // Now 500 per user
+                    coins += totalReward;
+                    if (coinCountElem) coinCountElem.textContent = coins;
+                    inviteCoinsClaimed += totalReward;
+                    
+                    myCodeUsedByOthers = data.my_code_used_by_others;
+                    
+                    localStorage.setItem('myCodeUsedByOthers', JSON.stringify(myCodeUsedByOthers));
+                    localStorage.setItem('inviteCoinsClaimed', inviteCoinsClaimed);
+                    
+                    saveGameState();
+                    updateInviteDisplay();
+
+                    if (totalReward > 0) {
+                        showInviteResult(`သင့် Code ကို အသစ်သုံးသူ ${newUsers.length} ယောက်အတွက် ${totalReward} Coins ရရှိပါသည်!`, 'success');
+                    }
+                }
+            }
+        } catch (error) {
+            console.error('Error checking my code usage:', error);
+        }
+    }
+
+    // Show invite result message
+    function showInviteResult(message, type) {
+        if (inviteResult) {
+            inviteResult.textContent = message;
+            inviteResult.className = '';
+            inviteResult.style.display = 'block';
+            inviteResult.style.padding = '8px';
+            inviteResult.style.borderRadius = '5px';
+            inviteResult.style.fontWeight = 'bold';
+            inviteResult.style.marginTop = '12px';
+            inviteResult.style.fontSize = '13px';
+            
+            if (type === 'success') {
+                inviteResult.style.background = 'rgba(40, 167, 69, 0.3)';
+                inviteResult.style.color = '#90ee90';
+                inviteResult.style.border = '1px solid #28a745';
+            } else {
+                inviteResult.style.background = 'rgba(220, 53, 69, 0.3)';
+                inviteResult.style.color = '#ff6b6b';
+                inviteResult.style.border = '1px solid #dc3545';
+            }
+            
+            setTimeout(() => {
+                inviteResult.style.display = 'none';
+            }, 5000);
+        }
+    }
+
+    // Navigation
+    inviteBtn.addEventListener('click', () => {
+        if (mainScreen) mainScreen.style.display = 'none';
+        inviteScreen.style.display = 'block';
+        updateInviteDisplay();
+        updateUsageUI();
+        checkMyCodeUsage(); // Check for new rewards when opening screen
+    });
+
+    backInvite.addEventListener('click', () => {
+        inviteScreen.style.display = 'none';
+        if (mainScreen) mainScreen.style.display = 'block';
+    });
+
+    // Initialize invite code in user data
+    function initializeUserInviteCode() {
+        if (currentUser && !currentUser.inviteCode) {
+            currentUser.inviteCode = generateInviteCode();
+            saveUserData();
+        }
+    }
+
+    // Initialize on load
+    setTimeout(() => {
+        initializeUserInviteCode();
+        updateInviteDisplay();
+        updateUsageUI();
+        // Check for rewards every 30 seconds
+        setInterval(checkMyCodeUsage, 30000);
+    }, 1000);
+}
+
+// Update saveUserToSupabase function to include invite system data
+const originalSaveUserToSupabase = window.saveUserToSupabase;
+window.saveUserToSupabase = async function(userData) {
+    try {
+        const { data, error } = await supabase
+            .from('users')
+            .upsert({
+                user_id: userData.uid,
+                display_name: userData.displayName,
+                photo_url: userData.photoURL,
+                tokens: userData.tokens,
+                coins: userData.coins,
+                crystals: userData.crystals,
+                completed_tasks: userData.completedTasks,
+                last_token_time: userData.lastTokenTime,
+                battle_try: userData.battleTry,
+                last_battle_time: userData.lastBattleTime,
+                share_count: userData.shareCount,
+                share10_count: userData.share10Count,
+                frame_id: currentUserFrame,
+                server: userData.server || currentServer,
+                invite_code: userData.inviteCode || userInviteCode,
+                my_code_used_by_others: myCodeUsedByOthers,
+                last_login: userData.lastLogin,
+                updated_at: new Date().toISOString()
+            }, {
+                onConflict: 'user_id'
+            });
+
+        if (error) throw error;
+        console.log('User saved to Supabase Server:', currentServer);
+        return data;
+    } catch (error) {
+        console.error('Error saving user to Supabase:', error);
+        throw error;
+    }
+};
+
+// Update getUserFromSupabase to include invite system data
+const originalGetUserFromSupabase = window.getUserFromSupabase;
+window.getUserFromSupabase = async function(userId) {
+    try {
+        const { data, error } = await supabase
+            .from('users')
+            .select('*')
+            .eq('user_id', userId)
+            .single();
+
+        if (error && error.code !== 'PGRST116') throw error;
+        
+        if (data) {
+            // Update local invite data from Supabase
+            if (data.my_code_used_by_others) {
+                myCodeUsedByOthers = data.my_code_used_by_others;
+                localStorage.setItem('myCodeUsedByOthers', JSON.stringify(myCodeUsedByOthers));
+            }
+
+            return {
+                uid: data.user_id,
+                displayName: data.display_name,
+                photoURL: data.photo_url,
+                tokens: data.tokens,
+                coins: data.coins,
+                crystals: data.crystals || 0,
+                completedTasks: data.completed_tasks,
+                lastTokenTime: data.last_token_time,
+                battleTry: data.battle_try,
+                lastBattleTime: data.last_battle_time,
+                shareCount: data.share_count,
+                share10Count: data.share10_count,
+                frameId: data.frame_id || 'default',
+                inviteCode: data.invite_code,
+                lastLogin: data.last_login,
+                createdAt: data.created_at,
+                updatedAt: data.updated_at
+            };
+        }
+        return null;
+    } catch (error) {
+        console.error('Error getting user from Supabase:', error);
+        return null;
+    }
+};
+
+// Initialize invite system when DOM is loaded
+document.addEventListener('DOMContentLoaded', function() {
+    setTimeout(() => {
+        initializeInviteSystem();
+    }, 2000);
+});
+
+  
 </script>
 </body>
 </html>
