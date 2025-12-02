@@ -3179,6 +3179,47 @@ body {
       <button class="btn" id="btn-channel4">Join & Claim</button>
     </div>
 
+<!-- NEW: Johnny Game Shop Channel Join Task -->
+<div class="task-item" id="task-johnny">
+  <div class="task-info">
+    <h3>Channel သို့ Join ပါ</h3>
+    <p>https://t.me/johnny_game_shop</p>
+    <div class="task-reward">
+      <img src="https://i.ibb.co/0VrgRS8Y/Grid-Art-20251201-170338013.png" alt="Token">
+      <span>3 Token Card</span>
+    </div>
+  </div>
+  <button class="btn" id="btn-johnny">Join & Claim</button>
+</div>
+
+<!-- NEW: Max Gaming Myanmar YouTube Subscribe Task -->
+<div class="task-item" id="task-maxgaming">
+  <div class="task-info">
+    <h3>YouTube Channel Subscribe လုပ်ပါ</h3>
+    <p>https://www.youtube.com/@maxgamingmyanmar1</p>
+    <div class="task-reward">
+      <img src="https://i.ibb.co/0VrgRS8Y/Grid-Art-20251201-170338013.png" alt="Token">
+      <span>3 Token Card</span>
+    </div>
+  </div>
+  <button class="btn" id="btn-maxgaming">Subscribe & Claim</button>
+</div>
+
+<!-- NEW: Yu Naga Gaming Shop Channel Join Task -->
+<div class="task-item" id="task-yunaga">
+  <div class="task-info">
+    <h3>Channel သို့ Join ပါ</h3>
+    <p>https://t.me/YuNagamingshop12</p>
+    <div class="task-reward">
+      <img src="https://i.ibb.co/0VrgRS8Y/Grid-Art-20251201-170338013.png" alt="Token">
+      <span>3 Token Card</span>
+    </div>
+  </div>
+  <button class="btn" id="btn-yunaga">Join & Claim</button>
+</div>
+
+    
+
 <!-- NEW: Diablo Channel Join Task -->
 <div class="task-item" id="task-diablo">
   <div class="task-info">
@@ -3644,7 +3685,12 @@ let completedTasks = JSON.parse(localStorage.getItem('completedTasks')) || {
   'diablo': false,        // ✅ NEW
   'pot': false,           // ✅ NEW
   'starlar-studio': false // ✅ NEW
+  'johnny': false,
+  'maxgaming': false,
+  'yunaga': false
 };
+
+  
 
   // Timer state
   let lastTokenTime = parseInt(localStorage.getItem('lastTokenTime')) || 0;
@@ -3709,6 +3755,30 @@ if (completedTasks['maxdiamond']) {
     btnMaxdiamond.textContent = 'လုပ်ပြီးပြီ';
     btnMaxdiamond.disabled = true;
   }
+
+
+  // Task အားလုံး update လုပ်သည့်နေရာတွင် အောက်ပါအတိုင်းထည့်ပါ
+
+if (completedTasks['johnny']) {
+    document.getElementById('task-johnny').classList.add('task-completed');
+    btnJohnny.textContent = 'လုပ်ပြီးပြီ';
+    btnJohnny.disabled = true;
+}
+
+if (completedTasks['maxgaming']) {
+    document.getElementById('task-maxgaming').classList.add('task-completed');
+    btnMaxgaming.textContent = 'လုပ်ပြီးပြီ';
+    btnMaxgaming.disabled = true;
+}
+
+if (completedTasks['yunaga']) {
+    document.getElementById('task-yunaga').classList.add('task-completed');
+    btnYunaga.textContent = 'လုပ်ပြီးပြီ';
+    btnYunaga.disabled = true;
+  }  
+
+
+  
 
 if (completedTasks['diablo']) {
     document.getElementById('task-diablo').classList.add('task-completed');
@@ -3940,6 +4010,8 @@ function saveGameState() {
     }, 1000);
   });
 
+  
+
 // NEW: Max Diamonds Shop Channel Join Task
 btnMaxdiamond.addEventListener('click', () => {
   if (completedTasks['maxdiamond']) return;
@@ -4017,6 +4089,63 @@ btnDiablo.addEventListener('click', () => {
     alert('Channel Join ပြီး 3 Token Card ရရှိပါသည်!');
   }, 1000);
 });
+
+
+// Johnny Game Shop
+const btnJohnny = document.getElementById('btn-johnny');
+btnJohnny.addEventListener('click', () => {
+    if (completedTasks['johnny']) return;
+    window.open('https://t.me/johnny_game_shop', '_blank');
+    setTimeout(() => {
+        tokens += 3;
+        tokenCountElem.textContent = tokens;
+        completedTasks['johnny'] = true;
+        document.getElementById('task-johnny').classList.add('task-completed');
+        btnJohnny.textContent = 'လုပ်ပြီးပြီ';
+        btnJohnny.disabled = true;
+        saveGameState();
+        alert('Channel Join ပြီး 3 Token Card ရရှိပါသည်!');
+    }, 1000);
+});
+
+// Max Gaming Myanmar YouTube
+const btnMaxgaming = document.getElementById('btn-maxgaming');
+btnMaxgaming.addEventListener('click', () => {
+    if (completedTasks['maxgaming']) return;
+    window.open('https://www.youtube.com/@maxgamingmyanmar1', '_blank');
+    setTimeout(() => {
+        tokens += 3;
+        tokenCountElem.textContent = tokens;
+        completedTasks['maxgaming'] = true;
+        document.getElementById('task-maxgaming').classList.add('task-completed');
+        btnMaxgaming.textContent = 'လုပ်ပြီးပြီ';
+        btnMaxgaming.disabled = true;
+        saveGameState();
+        alert('YouTube Subscribe ပြီး 3 Token Card ရရှိပါသည်!');
+    }, 1000);
+});
+
+// Yu Naga Gaming Shop
+const btnYunaga = document.getElementById('btn-yunaga');
+btnYunaga.addEventListener('click', () => {
+    if (completedTasks['yunaga']) return;
+    window.open('https://t.me/YuNagamingshop12', '_blank');
+    setTimeout(() => {
+        tokens += 3;
+        tokenCountElem.textContent = tokens;
+        completedTasks['yunaga'] = true;
+        document.getElementById('task-yunaga').classList.add('task-completed');
+        btnYunaga.textContent = 'လုပ်ပြီးပြီ';
+        btnYunaga.disabled = true;
+        saveGameState();
+        alert('Channel Join ပြီး 3 Token Card ရရှိပါသည်!');
+    }, 1000);
+});
+
+
+
+
+  
 
   // NEW: POT Diamond Store Channel Join Task
 btnPot.addEventListener('click', () => {
