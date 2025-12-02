@@ -4600,18 +4600,16 @@ const SUPABASE_SERVERS = {
     enabled: true,
     newUsers: true
   },
-  // ✅ NEW: Server 5
   server5: {
-    url: 'https://qhymuppxnbzioryulfwg.supabase.co',
-    key: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFoeW11cHB4bmJ6aW9yeXVsZndnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjMxMDkzNjMsImV4cCI6MjA3ODY4NTM2M30.9rxMQuquFtMFKT4m9Eo4WVCWAWGwQDsof8l2csE3B8Q',
+    url: 'https://vjuimvqxauzrrnivzhqr.supabase.co',
+    key: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZqdWltdnF4YXV6cnJuaXZ6aHFyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQ2NDk2NTEsImV4cCI6MjA4MDIyNTY1MX0.sVYMvl2VpURtm7uvmWFKgSBv-cawKfFQHlXX1Iqo6zY',
     maxUsers: 100,
     enabled: true,
     newUsers: true
   },
-  // ✅ NEW: Server 6
   server6: {
-    url: 'https://nqhzlwwqkhzdxzsaitcf.supabase.co',
-    key: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5xaHpsd3dxa2h6ZHh6c2FpdGNmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjMxMDk2MzQsImV4cCI6MjA3ODY4NTYzNH0.4Z_1-hXDC-KZffFDLUEHsryyzB8_1YdLJSQVmDBN-eE',
+    url: 'https://tltroqqcosouvlawwaxi.supabase.co',
+    key: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRsdHJvcXFjb3NvdXZsYXd3YXhpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQ2NDk4MTksImV4cCI6MjA4MDIyNTgxOX0.NoMw1zsoh5ISukmY1OYEURXI4HxFhBc0qE7ydr6gngA',
     maxUsers: 100,
     enabled: true,
     newUsers: true
@@ -5300,11 +5298,13 @@ function clearRankData() {
 async function loadServerUserCounts() {
   try {
     const serverElements = {
-      'server1': document.getElementById('server1-count'),
-      'server2': document.getElementById('server2-count'),
-      'server3': document.getElementById('server3-count'),
-      'server4': document.getElementById('server4-count')
-    };
+  'server1': document.getElementById('server1-count'),
+  'server2': document.getElementById('server2-count'),
+  'server3': document.getElementById('server3-count'),
+  'server4': document.getElementById('server4-count'),
+  'server5': document.getElementById('server5-count'), // ✅ NEW
+  'server6': document.getElementById('server6-count')  // ✅ NEW
+};
 
     for (const [serverId, element] of Object.entries(serverElements)) {
       try {
@@ -5649,7 +5649,9 @@ function getServerDisplayName(serverId) {
     'server1': 'Server 1',
     'server2': 'Server 2', 
     'server3': 'Server 3',
-    'server4': 'Server 4'
+    'server4': 'Server 4',
+    'server5': 'Server 5', // ✅ NEW
+    'server6': 'Server 6'  // ✅ NEW
   };
   return serverNames[serverId] || serverId;
 }
