@@ -3632,11 +3632,9 @@ const btnChannel4 = document.getElementById('btn-channel4');
 const btnYoutube = document.getElementById('btn-youtube');
 const btnShare = document.getElementById('btn-share');
 const btnMoonton = document.getElementById('btn-moonton');
-const btnLily = document.getElementById('btn-lily');
 const btnShare10 = document.getElementById('btn-share10');
 const btnMaxdiamond = document.getElementById('btn-maxdiamond'); // ✅ NEW
 // DOM Elements များ
-const btnDiablo = document.getElementById('btn-diablo');
 const btnPot = document.getElementById('btn-pot');
 const btnStarlarStudio = document.getElementById('btn-starlar-studio');
 
@@ -3658,9 +3656,7 @@ let completedTasks = JSON.parse(localStorage.getItem('completedTasks')) || {
   'share': false,
   'moonton': false,
   'share10': false,
-  'lily': false,
   'maxdiamond': false,
-  'diablo': false,        // ✅ NEW
   'pot': false,           // ✅ NEW
   'starlar-studio': false // ✅ NEW
   'johnny': false,
@@ -3758,11 +3754,7 @@ if (completedTasks['yunaga']) {
 
   
 
-if (completedTasks['diablo']) {
-    document.getElementById('task-diablo').classList.add('task-completed');
-    btnDiablo.textContent = 'လုပ်ပြီးပြီ';
-    btnDiablo.disabled = true;
-  }
+
 
   // NEW: POT Diamond Store
   if (completedTasks['pot']) {
@@ -3805,11 +3797,7 @@ if (completedTasks['diablo']) {
     btnMoonton.disabled = true;
   }
   
-  if (completedTasks['lily']) {
-  document.getElementById('task-lily').classList.add('task-completed');
-  btnLily.textContent = 'လုပ်ပြီးပြီ';
-  btnLily.disabled = true;
-}
+
 
 
 
@@ -4048,25 +4036,7 @@ btnMaxdiamond.addEventListener('click', () => {
     }, 1000);
   });
 
-// NEW: Diablo Channel Join Task
-btnDiablo.addEventListener('click', () => {
-  if (completedTasks['diablo']) return;
 
-  window.open('https://t.me/diablo9076', '_blank');
-
-  setTimeout(() => {
-    tokens += 3;
-    tokenCountElem.textContent = tokens;
-    completedTasks['diablo'] = true;
-
-    document.getElementById('task-diablo').classList.add('task-completed');
-    btnDiablo.textContent = 'လုပ်ပြီးပြီ';
-    btnDiablo.disabled = true;
-
-    saveGameState();
-    alert('Channel Join ပြီး 3 Token Card ရရှိပါသည်!');
-  }, 1000);
-});
 
 
 // Johnny Game Shop
@@ -4226,25 +4196,7 @@ btnMoonton.addEventListener('click', () => {
   }, 1000);
 });
 
-// NEW: Lily Dia Shop Channel Join Task
-btnLily.addEventListener('click', () => {
-  if (completedTasks['lily']) return;
 
-  window.open('https://t.me/lily_diashop', '_blank');
-
-  setTimeout(() => {
-    tokens += 3;
-    tokenCountElem.textContent = tokens;
-    completedTasks['lily'] = true;
-
-    document.getElementById('task-lily').classList.add('task-completed');
-    btnLily.textContent = 'လုပ်ပြီးပြီ';
-    btnLily.disabled = true;
-
-    saveGameState();
-    alert('Channel Join ပြီး 3 Token Card ရရှိပါသည်!');
-  }, 1000);
-});
 
 
 // NEW: 10 Times Share Task
