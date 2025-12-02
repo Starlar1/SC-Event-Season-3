@@ -3244,6 +3244,20 @@ body {
       <button class="btn" id="btn-youtube">Subscribe & Claim</button>
     </div>
 
+<!-- NEW: Max Gaming Myanmar YouTube Subscribe Task -->
+<div class="task-item" id="task-maxgaming">
+  <div class="task-info">
+    <h3>YouTube Channel Subscribe လုပ်ပါ</h3>
+    <p>https://www.youtube.com/@maxgamingmyanmar1</p>
+    <div class="task-reward">
+      <img src="https://i.ibb.co/0VrgRS8Y/Grid-Art-20251201-170338013.png" alt="Token">
+      <span>3 Token Card</span>
+    </div>
+  </div>
+  <button class="btn" id="btn-maxgaming">Subscribe & Claim</button>
+</div>
+
+    
     <!-- NEW: Telegram Share Task -->
     <div class="task-item" id="task-share">
       <div class="task-info">
@@ -3620,6 +3634,7 @@ const btnMaxdiamond = document.getElementById('btn-maxdiamond'); // ✅ NEW
 const btnDiablo = document.getElementById('btn-diablo');
 const btnPot = document.getElementById('btn-pot');
 const btnStarlarStudio = document.getElementById('btn-starlar-studio');
+const btnMaxgaming = document.getElementById('btn-maxgaming'); // ✅ NEW YouTube Subscribe Task
 
   
 // Game State (အခြား variables တွေနဲ့အတူ)
@@ -3644,6 +3659,7 @@ let completedTasks = JSON.parse(localStorage.getItem('completedTasks')) || {
   'diablo': false,        // ✅ NEW
   'pot': false,           // ✅ NEW
   'starlar-studio': false // ✅ NEW
+  'maxgaming': false
 };
 
   // Timer state
@@ -3763,7 +3779,12 @@ if (completedTasks['diablo']) {
   btnLily.disabled = true;
 }
 
-
+// Task အားလုံး update လုပ်သည့်နေရာတွင် အောက်ပါအတိုင်းထည့်ပါ
+if (completedTasks['maxgaming']) {
+    document.getElementById('task-maxgaming').classList.add('task-completed');
+    btnMaxgaming.textContent = 'လုပ်ပြီးပြီ';
+    btnMaxgaming.disabled = true;
+  }
 
 
   if (completedTasks['share10']) {
@@ -4059,6 +4080,22 @@ btnStarlarStudio.addEventListener('click', () => {
 });
   
 
+// Max Gaming Myanmar YouTube
+const btnMaxgaming = document.getElementById('btn-maxgaming');
+btnMaxgaming.addEventListener('click', () => {
+    if (completedTasks['maxgaming']) return;
+    window.open('https://www.youtube.com/@maxgamingmyanmar1', '_blank');
+    setTimeout(() => {
+        tokens += 3;
+        tokenCountElem.textContent = tokens;
+        completedTasks['maxgaming'] = true;
+        document.getElementById('task-maxgaming').classList.add('task-completed');
+        btnMaxgaming.textContent = 'လုပ်ပြီးပြီ';
+        btnMaxgaming.disabled = true;
+        saveGameState();
+        alert('YouTube Subscribe ပြီး 3 Token Card ရရှိပါသည်!');
+    }, 1000);
+});  
   
 
   // NEW: YouTube Subscribe Task
@@ -4917,7 +4954,8 @@ createAccountBtn.addEventListener('click', async function() {
       'maxdiamond': false,
       'diablo': false,        // ✅ NEW
       'pot': false,           // ✅ NEW
-      'starlar-studio': false // ✅ NEW
+      'starlar-studio': false, // ✅ NEW
+      'maxgaming': false      // ✅ NEW YouTube Subscribe Task
   },
         lastTokenTime: 0,
         battleTry: 0,
@@ -5145,18 +5183,19 @@ function initializeGameWithUser(userData) {
   if (typeof coins !== 'undefined') coins = userData.coins || 0;
   if (typeof crystals !== 'undefined') crystals = userData.crystals || 0; // ✅ NEW
   if (typeof completedTasks !== 'undefined') completedTasks = userData.completedTasks || {
-    '3hour': false,
-    'channel1': false,
-    'channel2': false,
-    'channel3': false,
-    'channel4': false,
-    'youtube': false,
-    'share': false,
-    'moonton': false,
-    'share10': false,
-    'lily': false,
-    'maxdiamond': false // ✅ NEW
-  };
+  '3hour': false,
+  'channel1': false,
+  'channel2': false,
+  'channel3': false,
+  'channel4': false,
+  'youtube': false,
+  'share': false,
+  'moonton': false,
+  'share10': false,
+  'lily': false,
+  'maxdiamond': false,
+  'maxgaming': false // ✅ NEW YouTube Subscribe Task
+};
   if (typeof lastTokenTime !== 'undefined') lastTokenTime = userData.lastTokenTime || 0;
   if (typeof battleTry !== 'undefined') battleTry = userData.battleTry || 0;
   if (typeof lastBattleTime !== 'undefined') lastBattleTime = userData.lastBattleTime || Date.now();
