@@ -2505,7 +2505,7 @@ body {
 
 
 <!-- Server Selection Screen -->
-<div id="server-selection-screen" style="display: none; width: 100vw; height: 100vh; background-image: url('https://i.ibb.co/CKwXpsYK/3fd7ec5fdb8a0a76bdebd416580f8b3a-1.jpg'); background-size: cover; background-position: center; background-repeat: no-repeat; position: fixed; top: 0; left: 0; z-index: 1000; overflow-y: auto; color: white; padding: 20px;">
+<div id="server-selection-screen" style="display: none; width: 100vw; height: 100vh; background-image: url('https://i.ibb.co/nq6XLWZz/3852a581194a806fabc9d28ecf8b0266.jpg'); background-size: cover; background-position: center; background-repeat: no-repeat; position: fixed; top: 0; left: 0; z-index: 1000; overflow-y: auto; color: white; padding: 20px;">
   <button class="back-btn" id="back-server-selection">Home</button>
   
   <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; text-align: center;">
@@ -2570,7 +2570,7 @@ body {
   </div>
 </div>
 <!-- Rank Screen -->
-<div id="rank-screen" style="display: none; width: 100vw; height: 100vh; background-image: url('https://i.ibb.co/CKwXpsYK/3fd7ec5fdb8a0a76bdebd416580f8b3a-1.jpg'); background-size: cover; background-position: center; background-repeat: no-repeat; position: fixed; top: 0; left: 0; z-index: 1000; overflow-y: auto; color: white; padding: 20px;">
+<div id="rank-screen" style="display: none; width: 100vw; height: 100vh; background-image: url('https://i.ibb.co/nq6XLWZz/3852a581194a806fabc9d28ecf8b0266.jpg'); background-size: cover; background-position: center; background-repeat: no-repeat; position: fixed; top: 0; left: 0; z-index: 1000; overflow-y: auto; color: white; padding: 20px;">
   <button class="back-btn" id="back-rank">Home</button>
   
   <div class="rank-header" style="text-align: center; margin-bottom: 20px; padding-top: 20px;">
@@ -3315,32 +3315,32 @@ body {
         <!-- Existing items -->
         <div class="exchange-card">
           <img src="https://iili.io/KGldYUG.jpg">
-          <p>5 Diamond - 4500 Coin - 16 ယောက်သာလဲနိုင်</p>
-          <button class="btn exchange-item" data-diamond="5" data-coins="4500">လဲမည်</button>
+          <p>5 Diamond - 8000 Coin - 30 ယောက်သာလဲနိုင်</p>
+          <button class="btn exchange-item" data-diamond="5" data-coins="8000">လဲမည်</button>
         </div>
         <div class="exchange-card">
           <img src="https://iili.io/KGlFqle.jpg">
-          <p>11 Diamond - 8000 Coin - 11 ယောက်သာလဲနိုင်</p>
-          <button class="btn exchange-item" data-diamond="11" data-coins="8000">လဲမည်</button>
+          <p>11 Diamond - 15000 Coin - 15 ယောက်သာလဲနိုင်</p>
+          <button class="btn exchange-item" data-diamond="11" data-coins="15000">လဲမည်</button>
         </div>
         <div class="exchange-card">
           <img src="https://iili.io/KGlfSK7.jpg">
-          <p>50 + 50 Diamond - 20000 Coins - 1 ယောက်သာလဲနိုင်</p>
+          <p>50 + 50 Diamond - 40000 Coins - 1 ယောက်သာလဲနိုင်</p>
           <button class="btn exchange-item" data-diamond="100" data-coins="20000">လဲမည်</button>
         </div>
         
                <!-- NEW: Wp Pass Item -->
         <div class="exchange-card">
           <img src="https://iili.io/KjVZcW7.jpg">
-          <p>Wp Pass - 35000 Coin - 2 ယောက်သာလဲနိုင်</p>
-          <button class="btn exchange-item" data-diamond="0" data-coins="35000" data-item="Wp Pass">လဲမည်</button>
+          <p>Wp Pass - 70000 Coin - လဲမရသေးပါ </p>
+          <button class="btn exchange-item" data-diamond="0" data-coins="70000" data-item="Wp Pass">လဲမည်</button>
         </div>
 
         <!-- Exchange Screen ထဲက exchange-cards div အတွင်း -->
 <div class="exchange-card">
   <img src="https://i.ibb.co/JWN4S2gf/Grid-Art-20251112-174154408.jpg" alt="Starlight">
-  <p>Starlight - 50000 Coin - 1 ယောက်သာလဲနိုင်</p>
-  <button class="btn exchange-item" data-diamond="0" data-coins="50000" data-item="Starlight">လဲမည်</button>
+  <p>Starlight - 100000 Coin - 1 ယောက်သာလဲနိုင်</p>
+  <button class="btn exchange-item" data-diamond="0" data-coins="100000" data-item="Starlight">လဲမည်</button>
 </div>
         
         <!-- New items -->
@@ -3908,7 +3908,7 @@ function saveGameState() {
 
     // Simulate user joining channel (in real app, you'd verify this)
     setTimeout(() => {
-      tokens += 5;
+      tokens += 3;
       tokenCountElem.textContent = tokens;
       completedTasks['channel1'] = true;
 
@@ -3917,7 +3917,7 @@ function saveGameState() {
       btnChannel1.disabled = true;
 
       saveGameState();
-      alert('Channel Join ပြီး 5 Token Card ရရှိပါသည်!');
+      alert('Channel Join ပြီး 3 Token Card ရရှိပါသည်!');
     }, 1000);
   });
 
@@ -3927,7 +3927,7 @@ function saveGameState() {
     window.open('https://t.me/stw27925', '_blank');
 
     setTimeout(() => {
-      tokens += 5;
+      tokens += 3;
       tokenCountElem.textContent = tokens;
       completedTasks['channel2'] = true;
 
@@ -3936,7 +3936,7 @@ function saveGameState() {
       btnChannel2.disabled = true;
 
       saveGameState();
-      alert('Channel Join ပြီး 5 Token Card ရရှိပါသည်!');
+      alert('Channel Join ပြီး 3 Token Card ရရှိပါသည်!');
     }, 1000);
   });
 
@@ -3966,7 +3966,7 @@ btnMaxdiamond.addEventListener('click', () => {
     window.open('https://t.me/calvin2k78', '_blank');
 
     setTimeout(() => {
-      tokens += 5;
+      tokens += 3;
       tokenCountElem.textContent = tokens;
       completedTasks['channel3'] = true;
 
@@ -3975,7 +3975,7 @@ btnMaxdiamond.addEventListener('click', () => {
       btnChannel3.disabled = true;
 
       saveGameState();
-      alert('Channel Join ပြီး 5 Token Card ရရှိပါသည်!');
+      alert('Channel Join ပြီး 3 Token Card ရရှိပါသည်!');
     }, 1000);
   });
 
@@ -3985,7 +3985,7 @@ btnMaxdiamond.addEventListener('click', () => {
     window.open('https://t.me/MythicMart_2', '_blank');
 
     setTimeout(() => {
-      tokens += 5;
+      tokens += 3;
       tokenCountElem.textContent = tokens;
       completedTasks['channel4'] = true;
 
@@ -3994,7 +3994,7 @@ btnMaxdiamond.addEventListener('click', () => {
       btnChannel4.disabled = true;
 
       saveGameState();
-      alert('Channel Join ပြီး 5 Token Card ရရှိပါသည်!');
+      alert('Channel Join ပြီး 3 Token Card ရရှိပါသည်!');
     }, 1000);
   });
 
