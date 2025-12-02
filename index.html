@@ -8368,7 +8368,7 @@ const invitationSystem = {
   generateCode() {
     const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
     let code = '';
-    for (let i = 0; i < 8; i++) {
+    for (let i = 0; i < 10; i++) {
       code += chars.charAt(Math.floor(Math.random() * chars.length));
     }
     return code;
@@ -8505,7 +8505,7 @@ const invitationSystem = {
     }
     
     if (code.length !== 8) {
-      alert('Code 8 လုံးဖြစ်ရမည်');
+      alert('Code 10 လုံးဖြစ်ရမည်');
       return;
     }
     
