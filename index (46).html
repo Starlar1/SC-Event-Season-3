@@ -4089,25 +4089,7 @@ btnYunagaming.addEventListener('click', () => {
     }, 1000);
   });
 
-// NEW: Diablo Channel Join Task
-btnDiablo.addEventListener('click', () => {
-  if (completedTasks['diablo']) return;
 
-  window.open('https://t.me/diablo9076', '_blank');
-
-  setTimeout(() => {
-    tokens += 3;
-    tokenCountElem.textContent = tokens;
-    completedTasks['diablo'] = true;
-
-    document.getElementById('task-diablo').classList.add('task-completed');
-    btnDiablo.textContent = 'လုပ်ပြီးပြီ';
-    btnDiablo.disabled = true;
-
-    saveGameState();
-    alert('Channel Join ပြီး 3 Token Card ရရှိပါသည်!');
-  }, 1000);
-});
 
   // NEW: POT Diamond Store Channel Join Task
 btnPot.addEventListener('click', () => {
