@@ -3315,7 +3315,7 @@ body {
         <!-- Existing items -->
         <div class="exchange-card">
           <img src="https://iili.io/KGldYUG.jpg">
-          <p>5 Diamond - 8000 Coin - 30 ယောက်သာလဲနိုင်</p>
+          <p>5 Diamond - 8000 Coin - 40 ယောက်သာလဲနိုင်</p>
           <button class="btn exchange-item" data-diamond="5" data-coins="8000">လဲမည်</button>
         </div>
         <div class="exchange-card">
@@ -8054,7 +8054,7 @@ function setupRulesEventListeners() {
     if (rulesChatText) {
         rulesChatText.addEventListener('click', function() {
             // If showing initial message, show questions
-            if (rulesChatText.textContent === "သိထားစရာများကို ကြည့်ရန်") {
+            if (rulesChatText.textContent === "သိထားစရာများကို ကြည့်ရန်နှိပ်ပါ") {
                 showQuestions();
             }
         });
@@ -8082,7 +8082,7 @@ function setupRulesEventListeners() {
 
 // Show initial message
 function showInitialMessage() {
-    const initialText = "သိထားစရာများကို ကြည့်ရန်";
+    const initialText = "သိထားစရာများကို ကြည့်ရန်နှိပ်ပါ";
     typeTextWithButton(rulesChatText, initialText);
     
     // Hide questions initially
