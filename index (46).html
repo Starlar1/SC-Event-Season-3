@@ -3179,18 +3179,47 @@ body {
       <button class="btn" id="btn-channel4">Join & Claim</button>
     </div>
 
-<!-- NEW: Diablo Channel Join Task -->
-<div class="task-item" id="task-diablo">
+<!-- NEW: Johnny Game Shop Channel Join Task -->
+<div class="task-item" id="task-johnny">
   <div class="task-info">
     <h3>Channel သို့ Join ပါ</h3>
-    <p>https://t.me/diablo9076</p>
+    <p>https://t.me/johnny_game_shop</p>
     <div class="task-reward">
       <img src="https://i.ibb.co/0VrgRS8Y/Grid-Art-20251201-170338013.png" alt="Token">
       <span>3 Token Card</span>
     </div>
   </div>
-  <button class="btn" id="btn-diablo">Join & Claim</button>
+  <button class="btn" id="btn-johnny">Join & Claim</button>
 </div>
+
+<!-- NEW: Max Gaming Myanmar YouTube Subscribe Task -->
+<div class="task-item" id="task-maxgaming">
+  <div class="task-info">
+    <h3>YouTube Channel Subscribe လုပ်ပါ</h3>
+    <p>@maxgamingmyanmar1</p>
+    <div class="task-reward">
+      <img src="https://i.ibb.co/0VrgRS8Y/Grid-Art-20251201-170338013.png" alt="Token">
+      <span>3 Token Card</span>
+    </div>
+  </div>
+  <button class="btn" id="btn-maxgaming">Subscribe & Claim</button>
+</div>
+
+<!-- NEW: Yu Nagaming Shop Channel Join Task -->
+<div class="task-item" id="task-yunagamingshop">
+  <div class="task-info">
+    <h3>Channel သို့ Join ပါ</h3>
+    <p>https://t.me/YuNagamingshop12</p>
+    <div class="task-reward">
+      <img src="https://i.ibb.co/0VrgRS8Y/Grid-Art-20251201-170338013.png" alt="Token">
+      <span>3 Token Card</span>
+    </div>
+  </div>
+  <button class="btn" id="btn-yunagamingshop">Join & Claim</button>
+</div>
+
+
+    
 
 <!-- NEW: POT Diamond Store Channel Join Task -->
 <div class="task-item" id="task-pot">
@@ -3249,7 +3278,7 @@ body {
       <div class="task-info">
         <h3>Telegram က မိတ်ဆွေများစီ ၃ ခါ Share ပါ</h3>
         <p>MLBB Diamonds များကို အခမဲ့ ရယူရန် Event တွင်ပါဝင်လိုက်ပါ 💎</p>
-        <p>https://starlar1.github.io/SC-Event-Season-2/</p>
+        <p>https://starlar1.github.io/SC-Event-Season-3/</p>
         <div class="task-reward">
           <img src="https://i.ibb.co/0VrgRS8Y/Grid-Art-20251201-170338013.png" alt="Token">
           <span>3 Token Card</span>
@@ -3274,25 +3303,14 @@ body {
 
 
 
-<!-- NEW: Lily Dia Shop Channel Join Task -->
-<div class="task-item" id="task-lily">
-  <div class="task-info">
-    <h3>Channel သို့ Join ပါ</h3>
-    <p>https://t.me/lily_diashop</p>
-    <div class="task-reward">
-      <img src="https://i.ibb.co/0VrgRS8Y/Grid-Art-20251201-170338013.png" alt="Token">
-      <span>3 Token Card</span>
-    </div>
-  </div>
-  <button class="btn" id="btn-lily">Join & Claim</button>
-</div>
+
 
 <!-- NEW: 10 Times Share Task -->
 <div class="task-item" id="task-share10">
   <div class="task-info">
     <h3>သူငယ်ချင်းများစီ ၁၀ ခါ Share ပါ</h3>
     <p>MLBB Diamonds များကို အခမဲ့ ရယူရန် Event တွင်ပါဝင်လိုက်ပါ 💎</p>
-    <p>https://starlar1.github.io/SC-Event-Season-2/</p>
+    <p>https://starlar1.github.io/SC-Event-Season-3/</p>
     <div class="task-reward">
       <img src="https://i.ibb.co/0VrgRS8Y/Grid-Art-20251201-170338013.png" alt="Token">
       <span>5 Token Card</span>
@@ -3620,7 +3638,10 @@ const btnMaxdiamond = document.getElementById('btn-maxdiamond'); // ✅ NEW
 const btnDiablo = document.getElementById('btn-diablo');
 const btnPot = document.getElementById('btn-pot');
 const btnStarlarStudio = document.getElementById('btn-starlar-studio');
-
+const btnJohnny = document.getElementById('btn-johnny');
+const btnMaxgaming = document.getElementById('btn-maxgaming');
+const btnYunagamingshop = document.getElementById('btn-yunagamingshop');
+  
   
 // Game State (အခြား variables တွေနဲ့အတူ)
 let tokens = parseInt(localStorage.getItem('tokens')) || 0;
@@ -3641,10 +3662,15 @@ let completedTasks = JSON.parse(localStorage.getItem('completedTasks')) || {
   'share10': false,
   'lily': false,
   'maxdiamond': false,
-  'diablo': false,        // ✅ NEW
-  'pot': false,           // ✅ NEW
-  'starlar-studio': false // ✅ NEW
+  'diablo': false,
+  'pot': false,
+  'starlar-studio': false,
+  // ✅ NEW TASKS
+  'johnny': false,
+  'maxgaming': false,
+  'yunagamingshop': false
 };
+
 
   // Timer state
   let lastTokenTime = parseInt(localStorage.getItem('lastTokenTime')) || 0;
@@ -3703,6 +3729,26 @@ function initializeGame() {
       btnChannel3.textContent = 'လုပ်ပြီးပြီ';
       btnChannel3.disabled = true;
     }
+
+if (completedTasks['johnny']) {
+  document.getElementById('task-johnny').classList.add('task-completed');
+  btnJohnny.textContent = 'လုပ်ပြီးပြီ';
+  btnJohnny.disabled = true;
+}
+
+if (completedTasks['maxgaming']) {
+  document.getElementById('task-maxgaming').classList.add('task-completed');
+  btnMaxgaming.textContent = 'လုပ်ပြီးပြီ';
+  btnMaxgaming.disabled = true;
+}
+
+if (completedTasks['yunagamingshop']) {
+  document.getElementById('task-yunagamingshop').classList.add('task-completed');
+  btnYunagamingshop.textContent = 'လုပ်ပြီးပြီ';
+  btnYunagamingshop.disabled = true;
+  }
+
+    
 
 if (completedTasks['maxdiamond']) {
     document.getElementById('task-maxdiamond').classList.add('task-completed');
@@ -3940,6 +3986,67 @@ function saveGameState() {
     }, 1000);
   });
 
+
+btnJohnny.addEventListener('click', () => {
+  if (completedTasks['johnny']) return;
+  
+  window.open('https://t.me/johnny_game_shop', '_blank');
+  
+  setTimeout(() => {
+    tokens += 3;
+    tokenCountElem.textContent = tokens;
+    completedTasks['johnny'] = true;
+    
+    document.getElementById('task-johnny').classList.add('task-completed');
+    btnJohnny.textContent = 'လုပ်ပြီးပြီ';
+    btnJohnny.disabled = true;
+    
+    saveGameState();
+    alert('Channel Join ပြီး 3 Token Card ရရှိပါသည်!');
+  }, 1000);
+});
+
+btnMaxgaming.addEventListener('click', () => {
+  if (completedTasks['maxgaming']) return;
+  
+  window.open('https://www.youtube.com/@maxgamingmyanmar1', '_blank');
+  
+  setTimeout(() => {
+    tokens += 3;
+    tokenCountElem.textContent = tokens;
+    completedTasks['maxgaming'] = true;
+    
+    document.getElementById('task-maxgaming').classList.add('task-completed');
+    btnMaxgaming.textContent = 'လုပ်ပြီးပြီ';
+    btnMaxgaming.disabled = true;
+    
+    saveGameState();
+    alert('YouTube Subscribe ပြီး 3 Token Card ရရှိပါသည်!');
+  }, 1000);
+});
+
+btnYunagamingshop.addEventListener('click', () => {
+  if (completedTasks['yunagamingshop']) return;
+  
+  window.open('https://t.me/YuNagamingshop12', '_blank');
+  
+  setTimeout(() => {
+    tokens += 3;
+    tokenCountElem.textContent = tokens;
+    completedTasks['yunagamingshop'] = true;
+    
+    document.getElementById('task-yunagamingshop').classList.add('task-completed');
+    btnYunagamingshop.textContent = 'လုပ်ပြီးပြီ';
+    btnYunagamingshop.disabled = true;
+    
+    saveGameState();
+    alert('Channel Join ပြီး 3 Token Card ရရှိပါသည်!');
+  }, 1000);
+});
+
+
+  
+
 // NEW: Max Diamonds Shop Channel Join Task
 btnMaxdiamond.addEventListener('click', () => {
   if (completedTasks['maxdiamond']) return;
@@ -4082,7 +4189,7 @@ btnStarlarStudio.addEventListener('click', () => {
   btnShare.addEventListener('click', () => {
     if (completedTasks['share']) return;
     // open Telegram share intent
-    window.open('https://t.me/share/url?url=https://starlar1.github.io/SC-Event-Season-2/&text=MLBB Diamonds များကို အခမဲ့ရယူရန် Event တွင်ပါဝင်လိုက်ပါ 💎', '_blank');
+    window.open('https://t.me/share/url?url=https://starlar1.github.io/SC-Event-Season-3/&text=MLBB Diamonds များကို အခမဲ့ရယူရန် Event တွင်ပါဝင်လိုက်ပါ 💎', '_blank');
     shareCount++;
     localStorage.setItem('shareCount', shareCount);
     if (shareCount >= 3) {
@@ -4146,7 +4253,7 @@ btnShare10.addEventListener('click', () => {
   if (completedTasks['share10']) return;
   
   // open Telegram share intent
-  window.open('https://t.me/share/url?url=https://starlar1.github.io/SC-Event-Season-2/&text=MLBB Diamonds များကို အခမဲ့ရယူရန် Event တွင်ပါဝင်လိုက်ပါ 💎', '_blank');
+  window.open('https://t.me/share/url?url=https://starlar1.github.io/SC-Event-Season-3/&text=MLBB Diamonds များကို အခမဲ့ရယူရန် Event တွင်ပါဝင်လိုက်ပါ 💎', '_blank');
   
   share10Count++;
   localStorage.setItem('share10Count', share10Count);
@@ -7343,7 +7450,7 @@ function handleLuckyAction() {
 
 // Share Function
 function shareForLuckyDraw() {
-  window.open('https://t.me/share/url?url=https://starlar1.github.io/SC-Event-Season-2/&text=MLBB Diamonds များကိုအခမဲ့ရယူလိုက်ပါ', '_blank');
+  window.open('https://t.me/share/url?url=https://starlar1.github.io/SC-Event-Season-3/&text=MLBB Diamonds များကိုအခမဲ့ရယူလိုက်ပါ', '_blank');
   
   // Give 3 tries when shared
   luckyTries = MAX_LUCKY_TRIES;
