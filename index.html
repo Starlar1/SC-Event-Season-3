@@ -3315,7 +3315,7 @@ body {
         <!-- Existing items -->
         <div class="exchange-card">
           <img src="https://iili.io/KGldYUG.jpg">
-          <p>5 Diamond - 8000 Coin - 40 ယောက်သာလဲနိုင်</p>
+          <p>5 Diamond - 8000 Coin - 30 ယောက်သာလဲနိုင်</p>
           <button class="btn exchange-item" data-diamond="5" data-coins="8000">လဲမည်</button>
         </div>
         <div class="exchange-card">
@@ -8054,7 +8054,7 @@ function setupRulesEventListeners() {
     if (rulesChatText) {
         rulesChatText.addEventListener('click', function() {
             // If showing initial message, show questions
-            if (rulesChatText.textContent === "သိထားစရာများကို ကြည့်ရန်နှိပ်ပါ") {
+            if (rulesChatText.textContent === "သိထားစရာများကို ကြည့်ရန်") {
                 showQuestions();
             }
         });
@@ -8082,7 +8082,7 @@ function setupRulesEventListeners() {
 
 // Show initial message
 function showInitialMessage() {
-    const initialText = "သိထားစရာများကို ကြည့်ရန်နှိပ်ပါ";
+    const initialText = "သိထားစရာများကို ကြည့်ရန်";
     typeTextWithButton(rulesChatText, initialText);
     
     // Hide questions initially
@@ -8254,7 +8254,7 @@ document.addEventListener('DOMContentLoaded', function() {
   const inviteScreenHTML = `
   <div id="invite-screen" style="display: none; width: 100vw; height: 100vh; background: linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb2d); position: fixed; top: 0; left: 0; z-index: 1000;">
     <button class="back-btn" id="back-invite" style="position: absolute; top: 20px; left: 20px; padding: 8px 16px; font-size: 14px; border: none; border-radius: 6px; background: #007bff; color: white; cursor: pointer;">
-      Home
+      ← Home
     </button>
     
     <div style="width: 100%; max-width: 360px; margin: 80px auto 20px; padding: 0 15px;">
@@ -8368,7 +8368,7 @@ const invitationSystem = {
   generateCode() {
     const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
     let code = '';
-    for (let i = 0; i < 10; i++) {
+    for (let i = 0; i < 8; i++) {
       code += chars.charAt(Math.floor(Math.random() * chars.length));
     }
     return code;
@@ -8505,7 +8505,7 @@ const invitationSystem = {
     }
     
     if (code.length !== 8) {
-      alert('Code 10 လုံးဖြစ်ရမည်');
+      alert('Code 8 လုံးဖြစ်ရမည်');
       return;
     }
     
