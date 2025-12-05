@@ -1,4 +1,4 @@
-<meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><!DOCTYPE html>
+<meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><!DOCTYPE html>
 <html lang="my">
 <head>
 <meta charset="UTF-8">
@@ -9709,6 +9709,577 @@ if (typeof saveUserData !== 'undefined') {
         if (typeof saveYouTubeTasksState === 'function') saveYouTubeTasksState();
     };
 }
+
+// ===== MODERN EVENTS SCREEN SYSTEM (FIXED VERSION) =====
+// Author: Starlar
+// Version: 1.2.1
+// Description: Fixed header events screen with animated blue background
+
+// ===== CONFIGURATION =====
+const EVENTS_CONFIG = {
+  // Animated Blue Background
+  bgColors: [
+    'linear-gradient(135deg, #1a237e 0%, #283593 50%, #3949ab 100%)',
+    'linear-gradient(135deg, #283593 0%, #3949ab 50%, #5c6bc0 100%)',
+    'linear-gradient(135deg, #3949ab 0%, #5c6bc0 50%, #7986cb 100%)'
+  ],
+  
+  // Colors
+  goldColor: '#ffd700',
+  goldGradient: 'linear-gradient(135deg, #ffd700, #ffed4e)',
+  
+  // Animation
+  hoverScale: 1.02,
+  transitionSpeed: '0.3s',
+  bgAnimationSpeed: '10s',
+  
+  // Events data structure
+  events: [
+    {
+      id: 'main-event',
+      title: 'VIP Event',
+      image: 'https://iili.io/fTqbNTB.jpg',
+      badge: 'VIP',
+      badgePosition: 'right',
+      badgeColor: 'dark',
+      isActive: true,
+      priority: 1
+    }
+  ]
+};
+
+// ===== EVENT MANAGER CLASS =====
+class EventManager {
+  constructor() {
+    this.events = EVENTS_CONFIG.events;
+    this.currentScreen = null;
+  }
+
+  // Create compact events screen with FIXED HEADER
+  createEventsScreen() {
+    const eventsScreenHTML = `
+    <!-- Events Screen -->
+    <div id="events-screen" style="
+      display: none; 
+      width: 100vw; 
+      height: 100vh; 
+      background: ${EVENTS_CONFIG.bgColors[0]}; 
+      position: fixed; 
+      top: 0; 
+      left: 0; 
+      z-index: 1000; 
+      overflow: hidden;
+      animation: bgPulse ${EVENTS_CONFIG.bgAnimationSpeed} infinite alternate;
+    ">
+      
+      <!-- Animated Background Elements -->
+      <div style="
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: 
+          radial-gradient(circle at 20% 30%, rgba(255,255,255,0.1) 0%, transparent 40%),
+          radial-gradient(circle at 80% 70%, rgba(100,149,237,0.15) 0%, transparent 40%);
+        animation: float 20s infinite ease-in-out;
+        pointer-events: none;
+        z-index: 1;
+      "></div>
+      
+      <!-- Sparkle Effects -->
+      <div style="
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-image: 
+          radial-gradient(1px 1px at 20% 30%, white 1px, transparent 0),
+          radial-gradient(1px 1px at 40% 70%, white 1px, transparent 0),
+          radial-gradient(1.5px 1.5px at 60% 20%, white 1px, transparent 0),
+          radial-gradient(1px 1px at 80% 50%, white 1px, transparent 0);
+        background-size: 300px 300px;
+        animation: sparkle 4s infinite;
+        pointer-events: none;
+        z-index: 2;
+        opacity: 0.3;
+      "></div>
+      
+      <!-- FIXED HEADER BAR (Does not scroll) -->
+      <div style="
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 60px;
+        background: rgba(0, 0, 0, 0.6); 
+        backdrop-filter: blur(10px);
+        border-bottom: 2px solid ${EVENTS_CONFIG.goldColor};
+        z-index: 20;
+        box-shadow: 0 3px 15px rgba(0,0,0,0.4);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 20px;
+      ">
+        <!-- Back Button -->
+        <button id="back-events" style="
+          background: ${EVENTS_CONFIG.goldColor}; 
+          border: none; 
+          border-radius: 5px; 
+          color: #000; 
+          cursor: pointer; 
+          display: flex; 
+          align-items: center; 
+          justify-content: center;
+          font-weight: bold;
+          font-size: 12px;
+          padding: 6px 12px;
+          min-width: 70px;
+          box-shadow: 0 3px 10px rgba(0,0,0,0.3);
+          transition: all 0.2s ease;
+        ">
+          ← Home
+        </button>
+        
+        <!-- Title -->
+        <div style="
+          color: ${EVENTS_CONFIG.goldColor}; 
+          font-size: 16px; 
+          font-weight: bold; 
+          text-shadow: 0 2px 8px rgba(0,0,0,0.8);
+          letter-spacing: 0.5px;
+          flex: 1;
+          text-align: center;
+          margin: 0 20px;
+        ">
+          Event များ
+        </div>
+        
+        <!-- Spacer for alignment -->
+        <div style="width: 70px;"></div>
+      </div>
+
+      <!-- SCROLLABLE CONTENT AREA (Starts below fixed header) -->
+      <div style="
+        position: absolute;
+        top: 60px;
+        left: 0;
+        width: 100%;
+        height: calc(100vh - 60px);
+        overflow-y: auto;
+        z-index: 10;
+        padding: 20px;
+      ">
+        <div style="
+          max-width: 1000px; 
+          margin: 0 auto;
+        ">
+          <div id="events-container" style="
+            display: grid; 
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); 
+            gap: 25px; 
+            justify-items: center;
+          ">
+            <!-- Events will be dynamically added here -->
+          </div>
+          
+          <!-- Add some bottom spacing -->
+          <div style="height: 50px;"></div>
+        </div>
+      </div>
+
+    </div>
+    `;
+    
+    document.body.insertAdjacentHTML('beforeend', eventsScreenHTML);
+    this.currentScreen = document.getElementById('events-screen');
+    
+    // Start background animation
+    this.startBackgroundAnimation();
+    
+    // Render all events
+    this.renderEvents();
+  }
+
+  // Animate background
+  startBackgroundAnimation() {
+    const screen = this.currentScreen;
+    if (!screen) return;
+    
+    let index = 0;
+    setInterval(() => {
+      index = (index + 1) % EVENTS_CONFIG.bgColors.length;
+      screen.style.background = EVENTS_CONFIG.bgColors[index];
+    }, 3000);
+  }
+
+  // Render events to the screen
+  renderEvents() {
+    const container = document.getElementById('events-container');
+    if (!container) return;
+    
+    container.innerHTML = '';
+    
+    // Sort events by priority
+    const sortedEvents = [...this.events].sort((a, b) => a.priority - b.priority);
+    
+    sortedEvents.forEach(event => {
+      if (event.isActive) {
+        const eventHTML = this.createEventCard(event);
+        container.insertAdjacentHTML('beforeend', eventHTML);
+      }
+    });
+    
+    // Add compact placeholders
+    for (let i = 0; i < 3; i++) {
+      const placeholderHTML = `
+        <div class="event-placeholder" style="
+          background: rgba(255,255,255,0.03); 
+          border: 1px dashed rgba(255,255,255,0.1); 
+          border-radius: 8px; 
+          min-height: 150px; 
+          width: 100%; 
+          display: flex; 
+          align-items: center; 
+          justify-content: center;
+          opacity: 0.5;
+          backdrop-filter: blur(3px);
+          transition: all 0.3s ease;
+        ">
+          <span style="color: rgba(255,255,255,0.2); font-size: 20px;">+</span>
+        </div>
+      `;
+      container.insertAdjacentHTML('beforeend', placeholderHTML);
+    }
+  }
+
+  // Create compact event card
+  createEventCard(event) {
+    const badgeStyle = event.badgePosition === 'right' 
+      ? 'right: 10px; left: auto;' 
+      : 'left: 10px; right: auto;';
+    
+    const badgeBackground = event.badgeColor === 'dark' 
+      ? 'rgba(0, 0, 0, 0.85)' 
+      : EVENTS_CONFIG.goldGradient;
+    
+    const badgeTextColor = event.badgeColor === 'dark' 
+      ? EVENTS_CONFIG.goldColor 
+      : '#000';
+    
+    return `
+    <div class="event-card" data-event-id="${event.id}" style="
+      position: relative;
+      cursor: pointer;
+      transition: all ${EVENTS_CONFIG.transitionSpeed} ease;
+      grid-column: ${event.priority === 1 ? '1 / -1' : 'auto'};
+      max-width: ${event.priority === 1 ? '500px' : '100%'};
+      margin: ${event.priority === 1 ? '0 auto 10px auto' : '0'};
+    ">
+      <img src="${event.image}" alt="${event.title}" style="
+        width: 100%;
+        border-radius: 10px;
+        border: 2px solid rgba(255,215,0,0.4);
+        box-shadow: 0 8px 25px rgba(0,0,0,0.4);
+        transition: all ${EVENTS_CONFIG.transitionSpeed} ease;
+      ">
+      
+      ${event.badge ? `
+      <div style="
+        position: absolute;
+        top: 10px;
+        ${badgeStyle}
+        background: ${badgeBackground};
+        color: ${badgeTextColor};
+        padding: 3px 10px;
+        border-radius: 12px;
+        font-weight: bold;
+        font-size: 10px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.4);
+        border: 1px solid ${event.badgeColor === 'dark' ? 'rgba(255,215,0,0.4)' : 'rgba(255,255,255,0.6)'};
+        backdrop-filter: blur(4px);
+        z-index: 2;
+        min-width: 40px;
+        text-align: center;
+        letter-spacing: 0.5px;
+      ">
+        ${event.badge}
+      </div>
+      ` : ''}
+      
+    </div>
+    `;
+  }
+
+  // Add event to sidebar
+  addEventButtonToSidebar() {
+    const sidebarButtons = document.getElementById('sidebar-buttons');
+    
+    if (sidebarButtons) {
+      const eventButtonHTML = `
+        <button class="sidebar-btn event-btn-gold" id="events-btn">
+          <span style="display: flex; align-items: center; gap: 6px;">
+            <span style="font-size: 16px;">🎁</span>
+            <span style="font-size: 13px;">Event များ</span>
+          </span>
+        </button>
+      `;
+      
+      sidebarButtons.insertAdjacentHTML('beforeend', eventButtonHTML);
+    }
+  }
+
+  // Add CSS styles
+  addStyles() {
+    const style = document.createElement('style');
+    style.textContent = `
+      /* Background Animations */
+      @keyframes bgPulse {
+        0%, 100% {
+          background: ${EVENTS_CONFIG.bgColors[0]};
+          filter: brightness(1);
+        }
+        33% {
+          background: ${EVENTS_CONFIG.bgColors[1]};
+          filter: brightness(1.05);
+        }
+        66% {
+          background: ${EVENTS_CONFIG.bgColors[2]};
+          filter: brightness(1.1);
+        }
+      }
+      
+      @keyframes float {
+        0%, 100% {
+          transform: translate(0, 0) rotate(0deg);
+        }
+        25% {
+          transform: translate(-10px, 10px) rotate(1deg);
+        }
+        50% {
+          transform: translate(5px, -5px) rotate(-1deg);
+        }
+        75% {
+          transform: translate(-5px, -10px) rotate(1deg);
+        }
+      }
+      
+      @keyframes sparkle {
+        0%, 100% {
+          opacity: 0.3;
+          transform: translate(0, 0);
+        }
+        50% {
+          opacity: 0.6;
+          transform: translate(5px, 5px);
+        }
+      }
+      
+      /* Compact Gold Event Button */
+      .sidebar-btn.event-btn-gold {
+        background: ${EVENTS_CONFIG.goldGradient};
+        border: 1px solid rgba(255, 223, 0, 0.8);
+        box-shadow: 0 0 15px rgba(255, 215, 0, 0.7);
+        animation: goldGlow 3s infinite alternate;
+        color: #000;
+        font-weight: bold;
+        padding: 10px 15px;
+        min-width: 110px;
+      }
+      
+      .sidebar-btn.event-btn-gold:hover {
+        background: linear-gradient(145deg, #ffea00, #ffd700);
+        transform: translateX(-4px) scale(1.03);
+        box-shadow: 0 0 25px rgba(255, 215, 0, 0.9);
+        animation: goldPulse 0.5s infinite alternate;
+      }
+      
+      @keyframes goldGlow {
+        0% {
+          box-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+        }
+        100% {
+          box-shadow: 0 0 20px rgba(255, 215, 0, 0.8);
+        }
+      }
+      
+      @keyframes goldPulse {
+        0% {
+          box-shadow: 0 0 15px rgba(255, 215, 0, 0.7);
+        }
+        100% {
+          box-shadow: 0 0 25px rgba(255, 215, 0, 1);
+        }
+      }
+      
+      /* Event Card Hover Effects */
+      .event-card:hover {
+        transform: scale(${EVENTS_CONFIG.hoverScale});
+      }
+      
+      .event-card:hover img {
+        box-shadow: 0 15px 40px rgba(0,0,0,0.6);
+        border-color: rgba(255,215,0,0.7);
+        filter: contrast(1.1);
+      }
+      
+      .event-card:hover > div {
+        transform: scale(1.05);
+        box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+      }
+      
+      /* Placeholder Hover */
+      .event-placeholder:hover {
+        border-color: rgba(255,215,0,0.3);
+        opacity: 0.8;
+        transform: translateY(-3px);
+        background: rgba(255,255,255,0.05);
+      }
+      
+      /* Back Button Hover */
+      #back-events:hover {
+        background: #ffcc00 !important;
+        box-shadow: 0 4px 15px rgba(255, 204, 0, 0.6) !important;
+        transform: scale(1.05);
+      }
+      
+      /* Custom Scrollbar */
+      #events-screen > div:nth-child(5)::-webkit-scrollbar {
+        width: 6px;
+      }
+      
+      #events-screen > div:nth-child(5)::-webkit-scrollbar-track {
+        background: rgba(0,0,0,0.2);
+        border-radius: 3px;
+      }
+      
+      #events-screen > div:nth-child(5)::-webkit-scrollbar-thumb {
+        background: rgba(255,215,0,0.5);
+        border-radius: 3px;
+      }
+      
+      #events-screen > div:nth-child(5)::-webkit-scrollbar-thumb:hover {
+        background: rgba(255,215,0,0.7);
+      }
+    `;
+    
+    document.head.appendChild(style);
+  }
+
+  // Initialize event handlers
+  initEventHandlers() {
+    const eventsBtn = document.getElementById('events-btn');
+    const backEventsBtn = document.getElementById('back-events');
+    const mainScreen = document.getElementById('main-screen');
+    
+    // Event Button Click
+    if (eventsBtn) {
+      eventsBtn.addEventListener('click', () => {
+        mainScreen.style.display = 'none';
+        this.currentScreen.style.display = 'block';
+      });
+    }
+    
+    // Back Button Click
+    if (backEventsBtn) {
+      backEventsBtn.addEventListener('click', () => {
+        this.currentScreen.style.display = 'none';
+        mainScreen.style.display = 'block';
+      });
+    }
+    
+    // Event Card Clicks
+    document.addEventListener('click', (e) => {
+      const eventCard = e.target.closest('.event-card');
+      if (eventCard) {
+        const eventId = eventCard.dataset.eventId;
+        this.handleEventClick(eventId);
+      }
+    });
+  }
+
+  // Handle event click
+  handleEventClick(eventId) {
+    const event = this.events.find(e => e.id === eventId);
+    if (event) {
+      console.log(`Event clicked: ${event.title}`);
+      // Add your custom event handling logic here
+    }
+  }
+
+  // ===== PUBLIC API =====
+  
+  addEvent(eventData) {
+    const newEvent = {
+      id: eventData.id || `event-${Date.now()}`,
+      title: eventData.title || 'New Event',
+      image: eventData.image || '',
+      badge: eventData.badge || '',
+      badgePosition: eventData.badgePosition || 'right',
+      badgeColor: eventData.badgeColor || 'dark',
+      isActive: eventData.isActive !== false,
+      priority: eventData.priority || 2
+    };
+    
+    this.events.push(newEvent);
+    this.renderEvents();
+    return newEvent.id;
+  }
+  
+  removeEvent(eventId) {
+    this.events = this.events.filter(event => event.id !== eventId);
+    this.renderEvents();
+  }
+  
+  getAllEvents() {
+    return this.events;
+  }
+  
+  updateEvent(eventId, updates) {
+    const index = this.events.findIndex(e => e.id === eventId);
+    if (index !== -1) {
+      this.events[index] = { ...this.events[index], ...updates };
+      this.renderEvents();
+    }
+  }
+  
+  init() {
+    this.createEventsScreen();
+    this.addEventButtonToSidebar();
+    this.addStyles();
+    this.initEventHandlers();
+  }
+}
+
+// ===== GLOBAL EVENT MANAGER INSTANCE =====
+window.EventSystem = new EventManager();
+
+// ===== INITIALIZATION =====
+document.addEventListener('DOMContentLoaded', function() {
+  setTimeout(() => {
+    window.EventSystem.init();
+  }, 3000);
+});
+
+// ===== USAGE EXAMPLES =====
+/*
+// နောက်မှ Event အသစ်ထည့်ရန်:
+EventSystem.addEvent({
+  image: 'https://example.com/image.jpg',
+  badge: 'NEW'
+});
+
+// Event ပြင်ရန်:
+EventSystem.updateEvent('main-event', {
+  badge: 'HOT'
+});
+*/
+
+
+
+
  </script>
 </body>
 </html>
