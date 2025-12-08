@@ -1,4 +1,4 @@
-<meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><!DOCTYPE html>
+<meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><!DOCTYPE html>
 <html lang="my">
 <head>
 <meta charset="UTF-8">
@@ -2351,7 +2351,211 @@ body {
 }
 
 
+/* ================= EVENTS SCREEN CSS ================= */
 
+/* Events Screen Container */
+#events-screen {
+  display: none;
+  width: 100vw;
+  height: 100vh;
+  background: linear-gradient(135deg, #0a1a5c, #1a3acd, #2a5aff);
+  background-size: 400% 400%;
+  animation: gradientFlow 6s ease infinite;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+  color: white;
+  overflow-y: auto;
+}
+
+/* Background Animation */
+@keyframes gradientFlow {
+  0%, 100% { 
+    background-position: 0% 50%;
+  }
+  50% { 
+    background-position: 100% 50%;
+  }
+}
+
+/* Triangle Animation */
+@keyframes triangleFloat {
+  0% { 
+    transform: translate(0, 0) rotate(0deg) scale(1);
+    opacity: 0;
+  }
+  10% { 
+    opacity: 0.3;
+  }
+  90% { 
+    opacity: 0.3;
+  }
+  100% { 
+    transform: translate(var(--move-x), var(--move-y)) rotate(var(--rotate)) scale(1.2);
+    opacity: 0;
+  }
+}
+
+/* Triangle Elements */
+#events-screen .triangle {
+  position: absolute;
+  width: 15px;
+  height: 15px;
+  background: rgba(255, 255, 255, 0.15);
+  clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+  filter: drop-shadow(0 0 2px rgba(255,255,255,0.3));
+}
+
+/* Event Button - Color Only Animation */
+#events-btn {
+  background: linear-gradient(145deg, #FFD700, #FFA500, #FFD700) !important;
+  border: 2px solid #FFD700 !important;
+  color: white !important;
+  font-weight: bold !important;
+  text-shadow: 0 1px 3px rgba(0,0,0,0.5) !important;
+  box-shadow: 
+    0 0 20px rgba(255, 215, 0, 0.8),
+    0 0 40px rgba(255, 215, 0, 0.5),
+    inset 0 0 15px rgba(255, 255, 255, 0.6) !important;
+  animation: colorPulse 1.5s ease-in-out infinite !important;
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+  transform: translateX(0) !important;
+  transition: all 0.3s ease !important;
+}
+
+/* Color Pulse Animation Only */
+@keyframes colorPulse {
+  0%, 100% {
+    box-shadow: 
+      0 0 15px rgba(255, 215, 0, 0.7),
+      0 0 30px rgba(255, 215, 0, 0.4),
+      inset 0 0 10px rgba(255, 255, 255, 0.5);
+  }
+  50% {
+    box-shadow: 
+      0 0 25px rgba(255, 215, 0, 0.9),
+      0 0 50px rgba(255, 215, 0, 0.6),
+      inset 0 0 20px rgba(255, 255, 255, 0.8);
+  }
+}
+
+/* Hover Effect - Color Only */
+#events-btn:hover {
+  animation: colorPulseFast 0.8s ease-in-out infinite !important;
+  transform: scale(1.05) !important;
+  box-shadow: 
+    0 0 30px rgba(255, 215, 0, 0.9),
+    0 0 60px rgba(255, 215, 0, 0.7),
+    inset 0 0 25px rgba(255, 255, 255, 0.9) !important;
+}
+
+@keyframes colorPulseFast {
+  0%, 100% {
+    box-shadow: 
+      0 0 20px rgba(255, 215, 0, 0.9),
+      0 0 40px rgba(255, 215, 0, 0.6),
+      inset 0 0 15px rgba(255, 255, 255, 0.7);
+  }
+  50% {
+    box-shadow: 
+      0 0 35px rgba(255, 215, 0, 1),
+      0 0 70px rgba(255, 215, 0, 0.8),
+      inset 0 0 30px rgba(255, 255, 255, 1);
+  }
+}
+
+/* Active state */
+#events-btn:active {
+  transform: scale(0.98) !important;
+  box-shadow: 
+    0 0 40px rgba(255, 215, 0, 1),
+    0 0 80px rgba(255, 215, 0, 0.8),
+    inset 0 0 35px rgba(255, 255, 255, 1) !important;
+}
+
+/* Event Images */
+#events-screen img {
+  width: 95%;
+  max-width: 400px;
+  height: auto;
+  aspect-ratio: 16/9;
+  object-fit: cover;
+  border-radius: 8px;
+  display: block;
+  margin: 0 auto 15px;
+}
+
+/* Event Header */
+#events-screen h2 {
+  font-size: 20px;
+  color: #FFD700;
+  text-shadow: 0 2px 5px rgba(255, 215, 0, 0.5);
+  margin: 15px 0;
+  text-align: center;
+}
+
+/* Events Container */
+#events-screen > div:first-child {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  margin: 0 auto;
+  padding: 10px;
+  text-align: center;
+}
+
+/* Events Images Container */
+#events-screen > div:first-child > div:last-child {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+  margin-top: 20px;
+}
+
+/* Triangles Container */
+#triangles-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+/* Back Button in Events Screen */
+#back-events {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  padding: 8px 16px;
+  font-size: 14px;
+  border: none;
+  border-radius: 6px;
+  background: #007bff;
+  color: white;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  z-index: 5;
+}
+
+#back-events:hover {
+  background: #0056b3;
+}
+
+#back-events::before {
+  content: '←';
+  margin-right: 6px;
+  font-size: 16px;
+}
+
+
+  
 </style>
 </head>
 <body>
@@ -2444,6 +2648,8 @@ body {
     <span>Gift Code</span>
   </button>
 
+<button class="sidebar-btn" id="events-btn">
+    <span style="text-shadow: 0 1px 3px rgba(0,0,0,0.5); font-weight: bold;">Event များ</span>
   
     </div>
   </div>
@@ -2481,6 +2687,41 @@ body {
 </div>
 
 
+
+<!-- Events Screen - Blue Background with Floating Triangles -->
+<div id="events-screen" style="display: none; width: 100vw; height: 100vh; position: fixed; top: 0; left: 0; z-index: 1000; color: white;">
+  <button class="back-btn" id="back-events">Home</button>
+  
+  <!-- Main Content -->
+  <div style="position: relative; z-index: 1; width: 100%; margin: 0 auto; padding: 10px; text-align: center;">
+    <!-- Small Header -->
+    <div style="margin: 15px 0;">
+      <h2 style="font-size: 20px; color: #FFD700; text-shadow: 0 2px 5px rgba(255, 215, 0, 0.5);">Event များ</h2>
+    </div>
+    
+    <!-- Events Images (5 images, one per row) -->
+    <div style="display: flex; flex-direction: column; align-items: center; gap: 15px; margin-top: 20px;">
+      <div>
+        <img src="https://i.ibb.co/fzwF76JH/Grid-Art-20251208-180615728.jpg" alt="Event 1" style="width: 95%; max-width: 400px; height: auto; aspect-ratio: 16/9; object-fit: cover; border-radius: 8px;">
+      </div>
+      <div>
+        <img src="https://i.ibb.co/zWJwB8bn/Grid-Art-20251204-175515291.jpg" alt="Event 2" style="width: 95%; max-width: 400px; height: auto; aspect-ratio: 16/9; object-fit: cover; border-radius: 8px;">
+      </div>
+      <div>
+        <img src="https://i.ibb.co/7JhW4ck2/Grid-Art-20251208-180757441.jpg" alt="Event 3" style="width: 95%; max-width: 400px; height: auto; aspect-ratio: 16/9; object-fit: cover; border-radius: 8px;">
+      </div>
+      <div>
+        <img src="https://i.ibb.co/7JhW4ck2/Grid-Art-20251208-180757441.jpg" alt="Event 4" style="width: 95%; max-width: 400px; height: auto; aspect-ratio: 16/9; object-fit: cover; border-radius: 8px;">
+      </div>
+      <div>
+        <img src="https://i.ibb.co/7JhW4ck2/Grid-Art-20251208-180757441.jpg" alt="Event 5" style="width: 95%; max-width: 400px; height: auto; aspect-ratio: 16/9; object-fit: cover; border-radius: 8px;">
+      </div>
+    </div>
+  </div>
+  
+  <!-- Floating Triangles Container -->
+  <div style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; overflow: hidden;" id="triangles-container"></div>
+</div>
 
 
   
@@ -9710,575 +9951,368 @@ if (typeof saveUserData !== 'undefined') {
     };
 }
 
-// ===== MODERN EVENTS SCREEN SYSTEM (FIXED VERSION) =====
-// Author: Starlar
-// Version: 1.2.1
-// Description: Fixed header events screen with animated blue background
 
-// ===== CONFIGURATION =====
-const EVENTS_CONFIG = {
-  // Animated Blue Background
-  bgColors: [
-    'linear-gradient(135deg, #1a237e 0%, #283593 50%, #3949ab 100%)',
-    'linear-gradient(135deg, #283593 0%, #3949ab 50%, #5c6bc0 100%)',
-    'linear-gradient(135deg, #3949ab 0%, #5c6bc0 50%, #7986cb 100%)'
-  ],
+   
+// EVENTS SYSTEM SCRIPT
+const eventsBtn = document.getElementById('events-btn');
+const eventsScreen = document.getElementById('events-screen');
+const backEventsBtn = document.getElementById('back-events');
+
+// Navigation
+eventsBtn.addEventListener('click', ()=>{
+  mainScreen.style.display='none';
+  eventsScreen.style.display='block';
+  createTriangles();
+});
+
+backEventsBtn.addEventListener('click', ()=>{
+  eventsScreen.style.display='none';
+  mainScreen.style.display='block';
+});
+
+// Create Triangles
+function createTriangles() {
+  const container = document.getElementById('triangles-container');
+  if (!container) return;
   
-  // Colors
-  goldColor: '#ffd700',
-  goldGradient: 'linear-gradient(135deg, #ffd700, #ffed4e)',
+  container.innerHTML = '';
   
-  // Animation
-  hoverScale: 1.02,
-  transitionSpeed: '0.3s',
-  bgAnimationSpeed: '10s',
-  
-  // Events data structure
-  events: [
-    {
-      id: 'main-event',
-      title: 'VIP Event',
-      image: 'https://i.ibb.co/S7xjSh8f/Grid-Art-20251204-175515291.jpg',
-      badge: 'VIP',
-      badgePosition: 'right',
-      badgeColor: 'dark',
-      isActive: true,
-      priority: 1
-    }
-  ]
-};
-
-// ===== EVENT MANAGER CLASS =====
-class EventManager {
-  constructor() {
-    this.events = EVENTS_CONFIG.events;
-    this.currentScreen = null;
-  }
-
-  // Create compact events screen with FIXED HEADER
-  createEventsScreen() {
-    const eventsScreenHTML = `
-    <!-- Events Screen -->
-    <div id="events-screen" style="
-      display: none; 
-      width: 100vw; 
-      height: 100vh; 
-      background: ${EVENTS_CONFIG.bgColors[0]}; 
-      position: fixed; 
-      top: 0; 
-      left: 0; 
-      z-index: 1000; 
-      overflow: hidden;
-      animation: bgPulse ${EVENTS_CONFIG.bgAnimationSpeed} infinite alternate;
-    ">
-      
-      <!-- Animated Background Elements -->
-      <div style="
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: 
-          radial-gradient(circle at 20% 30%, rgba(255,255,255,0.1) 0%, transparent 40%),
-          radial-gradient(circle at 80% 70%, rgba(100,149,237,0.15) 0%, transparent 40%);
-        animation: float 20s infinite ease-in-out;
-        pointer-events: none;
-        z-index: 1;
-      "></div>
-      
-      <!-- Sparkle Effects -->
-      <div style="
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-image: 
-          radial-gradient(1px 1px at 20% 30%, white 1px, transparent 0),
-          radial-gradient(1px 1px at 40% 70%, white 1px, transparent 0),
-          radial-gradient(1.5px 1.5px at 60% 20%, white 1px, transparent 0),
-          radial-gradient(1px 1px at 80% 50%, white 1px, transparent 0);
-        background-size: 300px 300px;
-        animation: sparkle 4s infinite;
-        pointer-events: none;
-        z-index: 2;
-        opacity: 0.3;
-      "></div>
-      
-      <!-- FIXED HEADER BAR (Does not scroll) -->
-      <div style="
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 60px;
-        background: rgba(0, 0, 0, 0.6); 
-        backdrop-filter: blur(10px);
-        border-bottom: 2px solid ${EVENTS_CONFIG.goldColor};
-        z-index: 20;
-        box-shadow: 0 3px 15px rgba(0,0,0,0.4);
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        padding: 0 20px;
-      ">
-        <!-- Back Button -->
-        <button id="back-events" style="
-          background: ${EVENTS_CONFIG.goldColor}; 
-          border: none; 
-          border-radius: 5px; 
-          color: #000; 
-          cursor: pointer; 
-          display: flex; 
-          align-items: center; 
-          justify-content: center;
-          font-weight: bold;
-          font-size: 12px;
-          padding: 6px 12px;
-          min-width: 70px;
-          box-shadow: 0 3px 10px rgba(0,0,0,0.3);
-          transition: all 0.2s ease;
-        ">
-          ← Home
-        </button>
-        
-        <!-- Title -->
-        <div style="
-          color: ${EVENTS_CONFIG.goldColor}; 
-          font-size: 16px; 
-          font-weight: bold; 
-          text-shadow: 0 2px 8px rgba(0,0,0,0.8);
-          letter-spacing: 0.5px;
-          flex: 1;
-          text-align: center;
-          margin: 0 20px;
-        ">
-          Event များ
-        </div>
-        
-        <!-- Spacer for alignment -->
-        <div style="width: 70px;"></div>
-      </div>
-
-      <!-- SCROLLABLE CONTENT AREA (Starts below fixed header) -->
-      <div style="
-        position: absolute;
-        top: 60px;
-        left: 0;
-        width: 100%;
-        height: calc(100vh - 60px);
-        overflow-y: auto;
-        z-index: 10;
-        padding: 20px;
-      ">
-        <div style="
-          max-width: 1000px; 
-          margin: 0 auto;
-        ">
-          <div id="events-container" style="
-            display: grid; 
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); 
-            gap: 25px; 
-            justify-items: center;
-          ">
-            <!-- Events will be dynamically added here -->
-          </div>
-          
-          <!-- Add some bottom spacing -->
-          <div style="height: 50px;"></div>
-        </div>
-      </div>
-
-    </div>
+  for (let i = 0; i < 30; i++) {
+    const triangle = document.createElement('div');
+    triangle.className = 'triangle';
+    
+    const size = Math.random() * 12 + 8;
+    const posX = Math.random() * 100;
+    const posY = Math.random() * 100;
+    const moveX = (Math.random() * 150 - 75) + 'px';
+    const moveY = (Math.random() * 150 - 75) + 'px';
+    const rotate = Math.random() * 360 + 'deg';
+    const duration = Math.random() * 6 + 4;
+    
+    triangle.style.cssText = `
+      width: ${size}px;
+      height: ${size}px;
+      left: ${posX}vw;
+      top: ${posY}vh;
+      --moveX: ${moveX};
+      --moveY: ${moveY};
+      --rotate: ${rotate};
+      animation: triangleFloat ${duration}s linear infinite;
+      animation-delay: ${Math.random() * 3}s;
     `;
     
-    document.body.insertAdjacentHTML('beforeend', eventsScreenHTML);
-    this.currentScreen = document.getElementById('events-screen');
-    
-    // Start background animation
-    this.startBackgroundAnimation();
-    
-    // Render all events
-    this.renderEvents();
-  }
-
-  // Animate background
-  startBackgroundAnimation() {
-    const screen = this.currentScreen;
-    if (!screen) return;
-    
-    let index = 0;
-    setInterval(() => {
-      index = (index + 1) % EVENTS_CONFIG.bgColors.length;
-      screen.style.background = EVENTS_CONFIG.bgColors[index];
-    }, 3000);
-  }
-
-  // Render events to the screen
-  renderEvents() {
-    const container = document.getElementById('events-container');
-    if (!container) return;
-    
-    container.innerHTML = '';
-    
-    // Sort events by priority
-    const sortedEvents = [...this.events].sort((a, b) => a.priority - b.priority);
-    
-    sortedEvents.forEach(event => {
-      if (event.isActive) {
-        const eventHTML = this.createEventCard(event);
-        container.insertAdjacentHTML('beforeend', eventHTML);
-      }
-    });
-    
-    // Add compact placeholders
-    for (let i = 0; i < 3; i++) {
-      const placeholderHTML = `
-        <div class="event-placeholder" style="
-          background: rgba(255,255,255,0.03); 
-          border: 1px dashed rgba(255,255,255,0.1); 
-          border-radius: 8px; 
-          min-height: 150px; 
-          width: 100%; 
-          display: flex; 
-          align-items: center; 
-          justify-content: center;
-          opacity: 0.5;
-          backdrop-filter: blur(3px);
-          transition: all 0.3s ease;
-        ">
-          <span style="color: rgba(255,255,255,0.2); font-size: 20px;">+</span>
-        </div>
-      `;
-      container.insertAdjacentHTML('beforeend', placeholderHTML);
-    }
-  }
-
-  // Create compact event card
-  createEventCard(event) {
-    const badgeStyle = event.badgePosition === 'right' 
-      ? 'right: 10px; left: auto;' 
-      : 'left: 10px; right: auto;';
-    
-    const badgeBackground = event.badgeColor === 'dark' 
-      ? 'rgba(0, 0, 0, 0.85)' 
-      : EVENTS_CONFIG.goldGradient;
-    
-    const badgeTextColor = event.badgeColor === 'dark' 
-      ? EVENTS_CONFIG.goldColor 
-      : '#000';
-    
-    return `
-    <div class="event-card" data-event-id="${event.id}" style="
-      position: relative;
-      cursor: pointer;
-      transition: all ${EVENTS_CONFIG.transitionSpeed} ease;
-      grid-column: ${event.priority === 1 ? '1 / -1' : 'auto'};
-      max-width: ${event.priority === 1 ? '500px' : '100%'};
-      margin: ${event.priority === 1 ? '0 auto 10px auto' : '0'};
-    ">
-      <img src="${event.image}" alt="${event.title}" style="
-        width: 100%;
-        border-radius: 10px;
-        border: 2px solid rgba(255,215,0,0.4);
-        box-shadow: 0 8px 25px rgba(0,0,0,0.4);
-        transition: all ${EVENTS_CONFIG.transitionSpeed} ease;
-      ">
-      
-      ${event.badge ? `
-      <div style="
-        position: absolute;
-        top: 10px;
-        ${badgeStyle}
-        background: ${badgeBackground};
-        color: ${badgeTextColor};
-        padding: 3px 10px;
-        border-radius: 12px;
-        font-weight: bold;
-        font-size: 10px;
-        box-shadow: 0 2px 8px rgba(0,0,0,0.4);
-        border: 1px solid ${event.badgeColor === 'dark' ? 'rgba(255,215,0,0.4)' : 'rgba(255,255,255,0.6)'};
-        backdrop-filter: blur(4px);
-        z-index: 2;
-        min-width: 40px;
-        text-align: center;
-        letter-spacing: 0.5px;
-      ">
-        ${event.badge}
-      </div>
-      ` : ''}
-      
-    </div>
-    `;
-  }
-
-  // Add event to sidebar
-  addEventButtonToSidebar() {
-    const sidebarButtons = document.getElementById('sidebar-buttons');
-    
-    if (sidebarButtons) {
-      const eventButtonHTML = `
-        <button class="sidebar-btn event-btn-gold" id="events-btn">
-          <span style="display: flex; align-items: center; gap: 6px;">
-            <span style="font-size: 16px;"></span>
-            <span style="font-size: 13px;">မကြာမှီလာမည်</span>
-          </span>
-        </button>
-      `;
-      
-      sidebarButtons.insertAdjacentHTML('beforeend', eventButtonHTML);
-    }
-  }
-
-  // Add CSS styles
-  addStyles() {
-    const style = document.createElement('style');
-    style.textContent = `
-      /* Background Animations */
-      @keyframes bgPulse {
-        0%, 100% {
-          background: ${EVENTS_CONFIG.bgColors[0]};
-          filter: brightness(1);
-        }
-        33% {
-          background: ${EVENTS_CONFIG.bgColors[1]};
-          filter: brightness(1.05);
-        }
-        66% {
-          background: ${EVENTS_CONFIG.bgColors[2]};
-          filter: brightness(1.1);
-        }
-      }
-      
-      @keyframes float {
-        0%, 100% {
-          transform: translate(0, 0) rotate(0deg);
-        }
-        25% {
-          transform: translate(-10px, 10px) rotate(1deg);
-        }
-        50% {
-          transform: translate(5px, -5px) rotate(-1deg);
-        }
-        75% {
-          transform: translate(-5px, -10px) rotate(1deg);
-        }
-      }
-      
-      @keyframes sparkle {
-        0%, 100% {
-          opacity: 0.3;
-          transform: translate(0, 0);
-        }
-        50% {
-          opacity: 0.6;
-          transform: translate(5px, 5px);
-        }
-      }
-      
-      /* Compact Gold Event Button */
-      .sidebar-btn.event-btn-gold {
-        background: ${EVENTS_CONFIG.goldGradient};
-        border: 1px solid rgba(255, 223, 0, 0.8);
-        box-shadow: 0 0 15px rgba(255, 215, 0, 0.7);
-        animation: goldGlow 3s infinite alternate;
-        color: #000;
-        font-weight: bold;
-        padding: 10px 15px;
-        min-width: 110px;
-      }
-      
-      .sidebar-btn.event-btn-gold:hover {
-        background: linear-gradient(145deg, #ffea00, #ffd700);
-        transform: translateX(-4px) scale(1.03);
-        box-shadow: 0 0 25px rgba(255, 215, 0, 0.9);
-        animation: goldPulse 0.5s infinite alternate;
-      }
-      
-      @keyframes goldGlow {
-        0% {
-          box-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
-        }
-        100% {
-          box-shadow: 0 0 20px rgba(255, 215, 0, 0.8);
-        }
-      }
-      
-      @keyframes goldPulse {
-        0% {
-          box-shadow: 0 0 15px rgba(255, 215, 0, 0.7);
-        }
-        100% {
-          box-shadow: 0 0 25px rgba(255, 215, 0, 1);
-        }
-      }
-      
-      /* Event Card Hover Effects */
-      .event-card:hover {
-        transform: scale(${EVENTS_CONFIG.hoverScale});
-      }
-      
-      .event-card:hover img {
-        box-shadow: 0 15px 40px rgba(0,0,0,0.6);
-        border-color: rgba(255,215,0,0.7);
-        filter: contrast(1.1);
-      }
-      
-      .event-card:hover > div {
-        transform: scale(1.05);
-        box-shadow: 0 4px 12px rgba(0,0,0,0.5);
-      }
-      
-      /* Placeholder Hover */
-      .event-placeholder:hover {
-        border-color: rgba(255,215,0,0.3);
-        opacity: 0.8;
-        transform: translateY(-3px);
-        background: rgba(255,255,255,0.05);
-      }
-      
-      /* Back Button Hover */
-      #back-events:hover {
-        background: #ffcc00 !important;
-        box-shadow: 0 4px 15px rgba(255, 204, 0, 0.6) !important;
-        transform: scale(1.05);
-      }
-      
-      /* Custom Scrollbar */
-      #events-screen > div:nth-child(5)::-webkit-scrollbar {
-        width: 6px;
-      }
-      
-      #events-screen > div:nth-child(5)::-webkit-scrollbar-track {
-        background: rgba(0,0,0,0.2);
-        border-radius: 3px;
-      }
-      
-      #events-screen > div:nth-child(5)::-webkit-scrollbar-thumb {
-        background: rgba(255,215,0,0.5);
-        border-radius: 3px;
-      }
-      
-      #events-screen > div:nth-child(5)::-webkit-scrollbar-thumb:hover {
-        background: rgba(255,215,0,0.7);
-      }
-    `;
-    
-    document.head.appendChild(style);
-  }
-
-  // Initialize event handlers
-  initEventHandlers() {
-    const eventsBtn = document.getElementById('events-btn');
-    const backEventsBtn = document.getElementById('back-events');
-    const mainScreen = document.getElementById('main-screen');
-    
-    // Event Button Click
-    if (eventsBtn) {
-      eventsBtn.addEventListener('click', () => {
-        mainScreen.style.display = 'none';
-        this.currentScreen.style.display = 'block';
-      });
-    }
-    
-    // Back Button Click
-    if (backEventsBtn) {
-      backEventsBtn.addEventListener('click', () => {
-        this.currentScreen.style.display = 'none';
-        mainScreen.style.display = 'block';
-      });
-    }
-    
-    // Event Card Clicks
-    document.addEventListener('click', (e) => {
-      const eventCard = e.target.closest('.event-card');
-      if (eventCard) {
-        const eventId = eventCard.dataset.eventId;
-        this.handleEventClick(eventId);
-      }
-    });
-  }
-
-  // Handle event click
-  handleEventClick(eventId) {
-    const event = this.events.find(e => e.id === eventId);
-    if (event) {
-      console.log(`Event clicked: ${event.title}`);
-      // Add your custom event handling logic here
-    }
-  }
-
-  // ===== PUBLIC API =====
-  
-  addEvent(eventData) {
-    const newEvent = {
-      id: eventData.id || `event-${Date.now()}`,
-      title: eventData.title || 'New Event',
-      image: eventData.image || '',
-      badge: eventData.badge || '',
-      badgePosition: eventData.badgePosition || 'right',
-      badgeColor: eventData.badgeColor || 'dark',
-      isActive: eventData.isActive !== false,
-      priority: eventData.priority || 2
-    };
-    
-    this.events.push(newEvent);
-    this.renderEvents();
-    return newEvent.id;
-  }
-  
-  removeEvent(eventId) {
-    this.events = this.events.filter(event => event.id !== eventId);
-    this.renderEvents();
-  }
-  
-  getAllEvents() {
-    return this.events;
-  }
-  
-  updateEvent(eventId, updates) {
-    const index = this.events.findIndex(e => e.id === eventId);
-    if (index !== -1) {
-      this.events[index] = { ...this.events[index], ...updates };
-      this.renderEvents();
-    }
-  }
-  
-  init() {
-    this.createEventsScreen();
-    this.addEventButtonToSidebar();
-    this.addStyles();
-    this.initEventHandlers();
+    container.appendChild(triangle);
   }
 }
 
-// ===== GLOBAL EVENT MANAGER INSTANCE =====
-window.EventSystem = new EventManager();
+// Start
+setTimeout(createTriangles, 100);
 
-// ===== INITIALIZATION =====
+// ===== GIFT BOX SELECTION SCREEN - WITH SPECIFIED BOX DESIGN =====
+
+// 1. Create the new screen HTML with specified box design
+const giftSelectionScreenHTML = `
+<div id="gift-selection-screen" style="display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background-image: url('https://i.ibb.co/Gvfj4mjb/16f2bec9d98d3cae76a124fe4163b92e.jpg'); background-size: cover; background-position: center; z-index: 2000; color: white; overflow-y: auto; padding: 0;">
+
+  <!-- Back Button -->
+  <button id="back-gift-selection" style="position: absolute; top: 15px; left: 15px; padding: 8px 14px; font-size: 13px; border: none; border-radius: 6px; background: rgba(0,123,255,0.8); color: white; cursor: pointer; z-index: 5;">
+    ← Back
+  </button>
+  
+  <!-- Main Content -->
+  <div style="padding: 20px; max-width: 500px; margin: 0 auto; height: 100%; display: flex; flex-direction: column;">
+    
+    <!-- Header -->
+    <div style="text-align: center; margin-top: 50px;">
+      <h2 style="font-size: 22px; color: #FFD700; text-shadow: 0 2px 5px rgba(0,0,0,0.7); margin-bottom: 5px;">လက်ဆောင်ရွေးချယ်ရန်</h2>
+      <p style="font-size: 14px; opacity: 0.9;">ယဉ်ကျေးတဲ့ကလေးတွေကိုသာ လက်ဆောင်ပေးပါတယ်</p>
+    </div>
+    
+    <!-- Question Section -->
+    <div id="question-section" style="display: none; text-align: center; margin-top: 30px; background: rgba(0,0,0,0.7); padding: 20px; border-radius: 12px;">
+      <h3 style="font-size: 18px; margin-bottom: 12px;">သင်ယဉ်ကျေးရဲ့လား?</h3>
+      <textarea id="politeness-answer" placeholder="အဖြေရေးသားပါ..." rows="2" style="width: 100%; padding: 12px; border-radius: 8px; border: none; background: rgba(255,255,255,0.9); color: black; font-size: 14px;"></textarea>
+      <button id="submit-answer" style="margin-top: 15px; padding: 10px 25px; background: #28a745; color: white; border: none; border-radius: 6px; font-size: 14px; cursor: pointer;">
+        ဖြေဆိုမည်
+      </button>
+    </div>
+    
+    <!-- Gift Grid Section -->
+    <div id="gift-grid-section" style="display: none; margin-top: 20px; text-align: center;">
+      <h3 style="font-size: 18px; margin-bottom: 15px;">လက်ဆောင်ရွေးပါ</h3>
+      <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin: 0 auto;">
+        <div class="gift-box" data-index="0" style="background: url('https://i.ibb.co/LDvSHYHC/Grid-Art-20251208-174255474.png'); background-size: contain; background-repeat: no-repeat; background-position: center; border-radius: 8px; width: 85px; height: 85px; display: flex; align-items: center; justify-content: center; font-size: 22px; color: white; cursor: pointer; transition: all 0.2s ease; text-shadow: 1px 1px 3px rgba(0,0,0,0.8);">?</div>
+        <div class="gift-box" data-index="1" style="background: url('https://i.ibb.co/LDvSHYHC/Grid-Art-20251208-174255474.png'); background-size: contain; background-repeat: no-repeat; background-position: center; border-radius: 8px; width: 85px; height: 85px; display: flex; align-items: center; justify-content: center; font-size: 22px; color: white; cursor: pointer; transition: all 0.2s ease; text-shadow: 1px 1px 3px rgba(0,0,0,0.8);">?</div>
+        <div class="gift-box" data-index="2" style="background: url('https://i.ibb.co/LDvSHYHC/Grid-Art-20251208-174255474.png'); background-size: contain; background-repeat: no-repeat; background-position: center; border-radius: 8px; width: 85px; height: 85px; display: flex; align-items: center; justify-content: center; font-size: 22px; color: white; cursor: pointer; transition: all 0.2s ease; text-shadow: 1px 1px 3px rgba(0,0,0,0.8);">?</div>
+        <div class="gift-box" data-index="3" style="background: url('https://i.ibb.co/LDvSHYHC/Grid-Art-20251208-174255474.png'); background-size: contain; background-repeat: no-repeat; background-position: center; border-radius: 8px; width: 85px; height: 85px; display: flex; align-items: center; justify-content: center; font-size: 22px; color: white; cursor: pointer; transition: all 0.2s ease; text-shadow: 1px 1px 3px rgba(0,0,0,0.8);">?</div>
+        <div class="gift-box" data-index="4" style="background: url('https://i.ibb.co/LDvSHYHC/Grid-Art-20251208-174255474.png'); background-size: contain; background-repeat: no-repeat; background-position: center; border-radius: 8px; width: 85px; height: 85px; display: flex; align-items: center; justify-content: center; font-size: 22px; color: white; cursor: pointer; transition: all 0.2s ease; text-shadow: 1px 1px 3px rgba(0,0,0,0.8);">?</div>
+        <div class="gift-box" data-index="5" style="background: url('https://i.ibb.co/LDvSHYHC/Grid-Art-20251208-174255474.png'); background-size: contain; background-repeat: no-repeat; background-position: center; border-radius: 8px; width: 85px; height: 85px; display: flex; align-items: center; justify-content: center; font-size: 22px; color: white; cursor: pointer; transition: all 0.2s ease; text-shadow: 1px 1px 3px rgba(0,0,0,0.8);">?</div>
+        <div class="gift-box" data-index="6" style="background: url('https://i.ibb.co/LDvSHYHC/Grid-Art-20251208-174255474.png'); background-size: contain; background-repeat: no-repeat; background-position: center; border-radius: 8px; width: 85px; height: 85px; display: flex; align-items: center; justify-content: center; font-size: 22px; color: white; cursor: pointer; transition: all 0.2s ease; text-shadow: 1px 1px 3px rgba(0,0,0,0.8);">?</div>
+        <div class="gift-box" data-index="7" style="background: url('https://i.ibb.co/LDvSHYHC/Grid-Art-20251208-174255474.png'); background-size: contain; background-repeat: no-repeat; background-position: center; border-radius: 8px; width: 85px; height: 85px; display: flex; align-items: center; justify-content: center; font-size: 22px; color: white; cursor: pointer; transition: all 0.2s ease; text-shadow: 1px 1px 3px rgba(0,0,0,0.8);">?</div>
+        <div class="gift-box" data-index="8" style="background: url('https://i.ibb.co/LDvSHYHC/Grid-Art-20251208-174255474.png'); background-size: contain; background-repeat: no-repeat; background-position: center; border-radius: 8px; width: 85px; height: 85px; display: flex; align-items: center; justify-content: center; font-size: 22px; color: white; cursor: pointer; transition: all 0.2s ease; text-shadow: 1px 1px 3px rgba(0,0,0,0.8);">?</div>
+      </div>
+    </div>
+    
+    <!-- Result Section -->
+    <div id="gift-result-section" style="display: none; margin-top: 20px; background: rgba(0,0,0,0.7); padding: 18px; border-radius: 10px; text-align: center;">
+      <h4 style="font-size: 18px; margin-bottom: 12px;">သင့်ရလဒ်</h4>
+      <div id="gift-result-text" style="font-size: 16px; color: #FFD700; margin: 8px 0;"></div>
+      <div id="next-gift-time" style="font-size: 13px; color: #ddd; margin-top: 8px;"></div>
+      <button id="close-gift-result" style="margin-top: 12px; padding: 8px 18px; background: #007bff; color: white; border: none; border-radius: 6px; font-size: 13px; cursor: pointer;">ပိတ်မည်</button>
+    </div>
+    
+    <!-- Empty space for flex -->
+    <div style="flex: 1;"></div>
+    
+    <!-- Small Claim Button at Bottom -->
+    <div id="claim-button-section" style="text-align: center; margin-bottom: 25px;">
+      <button id="start-claim-btn" style="padding: 10px 25px; font-size: 14px; background: linear-gradient(135deg, #FF6B00, #FF8C00); color: white; border: none; border-radius: 8px; cursor: pointer; box-shadow: 0 4px 12px rgba(255,107,0,0.4); transition: all 0.3s ease;">
+        🎁 လက်ဆောင်ယူမည်
+      </button>
+    </div>
+  </div>
+</div>
+`;
+
+// 2. Add the HTML to body
+document.body.insertAdjacentHTML('beforeend', giftSelectionScreenHTML);
+
+// 3. Gift items configuration
+const giftItems = [
+  { type: 'coins', value: 30, img: 'https://i.ibb.co/v6q117y5/Grid-Art-20251201-165223815.png', name: '30 Coins', bgColor: '#FFD700' },
+  { type: 'coins', value: 50, img: 'https://i.ibb.co/v6q117y5/Grid-Art-20251201-165223815.png', name: '50 Coins', bgColor: '#FFD700' },
+  { type: 'coins', value: 80, img: 'https://i.ibb.co/v6q117y5/Grid-Art-20251201-165223815.png', name: '80 Coins', bgColor: '#FFD700' },
+  { type: 'coins', value: 100, img: 'https://i.ibb.co/v6q117y5/Grid-Art-20251201-165223815.png', name: '100 Coins', bgColor: '#FFD700' },
+  { type: 'crystals', value: 30, img: 'https://iili.io/KvbIfKg.png', name: '30 Crystals', bgColor: '#00BFFF' },
+  { type: 'crystals', value: 50, img: 'https://iili.io/KvbIfKg.png', name: '50 Crystals', bgColor: '#00BFFF' },
+  { type: 'crystals', value: 100, img: 'https://iili.io/KvbIfKg.png', name: '100 Crystals', bgColor: '#00BFFF' },
+  { type: 'tokens', value: 2, img: 'https://i.ibb.co/0VrgRS8Y/Grid-Art-20251201-170338013.png', name: '2 Tokens', bgColor: '#FF8C00' },
+  { type: 'tokens', value: 3, img: 'https://i.ibb.co/0VrgRS8Y/Grid-Art-20251201-170338013.png', name: '3 Tokens', bgColor: '#FF8C00' }
+];
+
+// 4. Shuffle function
+function shuffleArray(array) {
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
+  }
+  return array;
+}
+
+// 5. Initialize gift system
 document.addEventListener('DOMContentLoaded', function() {
+  // Wait for events screen to load
   setTimeout(() => {
-    window.EventSystem.init();
-  }, 3000);
+    const eventsScreen = document.getElementById('events-screen');
+    if (eventsScreen) {
+      const firstEventImg = eventsScreen.querySelector('img');
+      if (firstEventImg) {
+        firstEventImg.style.cursor = 'pointer';
+        firstEventImg.addEventListener('click', function() {
+          // Hide events screen
+          eventsScreen.style.display = 'none';
+          // Show gift selection screen
+          const giftScreen = document.getElementById('gift-selection-screen');
+          giftScreen.style.display = 'block';
+          
+          // Reset to initial state (only show claim button)
+          document.getElementById('question-section').style.display = 'none';
+          document.getElementById('gift-grid-section').style.display = 'none';
+          document.getElementById('gift-result-section').style.display = 'none';
+          document.getElementById('claim-button-section').style.display = 'block';
+          document.getElementById('politeness-answer').value = '';
+          
+          // Check cooldown and update button text
+          checkGiftCooldown();
+        });
+      }
+    }
+  }, 1000);
+
+  // Function to check cooldown
+  function checkGiftCooldown() {
+    const lastGiftTime = parseInt(localStorage.getItem('lastGiftTime')) || 0;
+    const now = Date.now();
+    const cooldown = 5 * 60 * 60 * 1000; // 5 hours
+    
+    const claimBtn = document.getElementById('start-claim-btn');
+    
+    if (now - lastGiftTime < cooldown) {
+      const remaining = cooldown - (now - lastGiftTime);
+      const hours = Math.floor(remaining / (1000 * 60 * 60));
+      const minutes = Math.floor((remaining % (1000 * 60 * 60)) / (1000 * 60));
+      
+      claimBtn.innerHTML = `⏳ ${hours}နာရီ ${minutes}မိနစ် စောင့်ရပါမည်`;
+      claimBtn.style.background = 'linear-gradient(135deg, #6c757d, #495057)';
+      claimBtn.disabled = true;
+    } else {
+      claimBtn.innerHTML = '🎁 လက်ဆောင်ယူမည်';
+      claimBtn.style.background = 'linear-gradient(135deg, #FF6B00, #FF8C00)';
+      claimBtn.disabled = false;
+    }
+  }
+
+  // Step 1: Start claim button click
+  document.getElementById('start-claim-btn').addEventListener('click', function() {
+    if (this.disabled) return;
+    
+    // Hide claim button, show question
+    document.getElementById('claim-button-section').style.display = 'none';
+    document.getElementById('question-section').style.display = 'block';
+  });
+
+  // Step 2: Submit answer
+  document.getElementById('submit-answer').addEventListener('click', function() {
+    const answer = document.getElementById('politeness-answer').value.trim();
+    if (answer.length === 0) {
+      alert('ကျေးဇူးပြု၍ အဖြေရေးသားပါ။');
+      return;
+    }
+
+    // Check cooldown again (in case user waited)
+    const lastGiftTime = parseInt(localStorage.getItem('lastGiftTime')) || 0;
+    const now = Date.now();
+    const cooldown = 5 * 60 * 60 * 1000;
+    
+    if (now - lastGiftTime < cooldown) {
+      const remaining = cooldown - (now - lastGiftTime);
+      const hours = Math.floor(remaining / (1000 * 60 * 60));
+      const minutes = Math.floor((remaining % (1000 * 60 * 60)) / (1000 * 60));
+      alert(`နောက်ထပ်လက်ဆောင်ယူရန် ${hours} နာရီ ${minutes} မိနစ် စောင့်ရပါမည်။`);
+      checkGiftCooldown();
+      document.getElementById('question-section').style.display = 'none';
+      document.getElementById('claim-button-section').style.display = 'block';
+      return;
+    }
+
+    // Show gift grid
+    document.getElementById('question-section').style.display = 'none';
+    document.getElementById('gift-grid-section').style.display = 'block';
+
+    // Shuffle gifts and assign to boxes
+    const shuffledGifts = shuffleArray([...giftItems]);
+    const boxes = document.querySelectorAll('.gift-box');
+    
+    boxes.forEach((box, index) => {
+      // Clear and reset box
+      box.innerHTML = '?';
+      box.style.background = "url('https://i.ibb.co/LDvSHYHC/Grid-Art-20251208-174255474.png') center/contain no-repeat";
+      box.style.color = 'white';
+      box.style.transform = 'scale(1)';
+      
+      // Store gift data
+      box.dataset.giftType = shuffledGifts[index].type;
+      box.dataset.giftValue = shuffledGifts[index].value;
+      box.dataset.giftName = shuffledGifts[index].name;
+      box.dataset.giftImg = shuffledGifts[index].img;
+      box.dataset.bgColor = shuffledGifts[index].bgColor;
+      
+      // Remove old event listeners
+      const newBox = box.cloneNode(true);
+      box.parentNode.replaceChild(newBox, box);
+      
+      // Add new event listener with hover effect
+      newBox.addEventListener('mouseenter', function() {
+        this.style.transform = 'scale(1.05)';
+      });
+      
+      newBox.addEventListener('mouseleave', function() {
+        this.style.transform = 'scale(1)';
+      });
+      
+      newBox.addEventListener('click', selectGift);
+    });
+  });
+
+  // Step 3: Select gift
+  function selectGift(e) {
+    const box = e.currentTarget;
+    const type = box.dataset.giftType;
+    const value = parseInt(box.dataset.giftValue);
+    const name = box.dataset.giftName;
+    const img = box.dataset.giftImg;
+    const bgColor = box.dataset.bgColor;
+
+    // Add reward to user
+    if (type === 'coins') {
+      coins += value;
+      if (coinCountElem) coinCountElem.textContent = coins;
+    } else if (type === 'crystals') {
+      crystals += value;
+      const crystalDisplay = document.querySelector('.token-card .crystal + .count');
+      if (crystalDisplay) crystalDisplay.textContent = crystals;
+    } else if (type === 'tokens') {
+      tokens += value;
+      if (tokenCountElem) tokenCountElem.textContent = tokens;
+    }
+
+    if (typeof saveGameState === 'function') {
+      saveGameState();
+    }
+
+    // Show selected effect on box
+    box.style.background = `${bgColor} url('https://i.ibb.co/LDvSHYHC/Grid-Art-20251208-174255474.png') center/contain no-repeat`;
+    box.innerHTML = `<div style="font-size: 16px; font-weight: bold; color: white; text-shadow: 1px 1px 3px rgba(0,0,0,0.8);">${value}</div>`;
+    box.style.border = '2px solid gold';
+    box.style.boxShadow = '0 0 15px gold';
+
+    // Show result
+    const resultText = document.getElementById('gift-result-text');
+    resultText.innerHTML = `
+      <div style="display: flex; flex-direction: column; align-items: center; gap: 10px;">
+        <div style="background: ${bgColor}; padding: 15px; border-radius: 10px; display: flex; align-items: center; gap: 12px;">
+          <img src="${img}" style="width: 40px; height: 40px;">
+          <div style="text-align: left;">
+            <div style="font-size: 20px; color: white; font-weight: bold;">${name}</div>
+            <div style="font-size: 14px; color: rgba(255,255,255,0.9);">လက်ဆောင်ရရှိပါသည်!</div>
+          </div>
+        </div>
+      </div>
+    `;
+
+    // Set cooldown
+    const now = Date.now();
+    localStorage.setItem('lastGiftTime', now);
+
+    // Calculate next available time
+    const nextTime = new Date(now + 5 * 60 * 60 * 1000);
+    const timeStr = nextTime.toLocaleTimeString('my-MM', { 
+      hour: '2-digit', 
+      minute: '2-digit',
+      hour12: false 
+    });
+    
+    const dateStr = nextTime.toLocaleDateString('my-MM', {
+      day: 'numeric',
+      month: 'short'
+    });
+    
+    document.getElementById('next-gift-time').innerHTML = `
+      <div style="margin-top: 10px; padding: 8px 12px; background: rgba(0,0,0,0.5); border-radius: 6px;">
+        <div style="font-size: 13px; color: #ddd;">နောက်တစ်ကြိမ် ယူနိုင်ချိန်</div>
+        <div style="font-size: 14px; color: #FFD700; font-weight: bold;">${dateStr} ${timeStr}</div>
+      </div>
+    `;
+
+    // Show result section after delay
+    setTimeout(() => {
+      document.getElementById('gift-grid-section').style.display = 'none';
+      document.getElementById('gift-result-section').style.display = 'block';
+    }, 1000);
+  }
+
+  // Back button
+  document.getElementById('back-gift-selection').addEventListener('click', function() {
+    document.getElementById('gift-selection-screen').style.display = 'none';
+    document.getElementById('events-screen').style.display = 'block';
+  });
+
+  // Close result
+  document.getElementById('close-gift-result').addEventListener('click', function() {
+    document.getElementById('gift-selection-screen').style.display = 'none';
+    document.getElementById('events-screen').style.display = 'block';
+  });
 });
-
-// ===== USAGE EXAMPLES =====
-/*
-// နောက်မှ Event အသစ်ထည့်ရန်:
-EventSystem.addEvent({
-  image: 'https://example.com/image.jpg',
-  badge: 'NEW'
-});
-
-// Event ပြင်ရန်:
-EventSystem.updateEvent('main-event', {
-  badge: 'HOT'
-});
-*/
-
-
-
 
  </script>
 </body>
