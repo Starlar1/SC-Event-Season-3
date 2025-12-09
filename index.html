@@ -1,4 +1,4 @@
-<meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><!DOCTYPE html>
+<meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><!DOCTYPE html>
 <html lang="my">
 <head>
 <meta charset="UTF-8">
@@ -10312,6 +10312,1063 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('gift-selection-screen').style.display = 'none';
     document.getElementById('events-screen').style.display = 'block';
   });
+});
+
+// ===== VIP CD EVENT SYSTEM - UPDATED VERSION =====
+
+// CD Event Variables
+let currentCD = null;
+let cdStartTime = null;
+let cdMusic = null;
+let cdCoinsEarned = false;
+let cdTimerInterval = null;
+let selectedCDForConfirmation = null;
+let vipCodeEntered = false;
+let purchasedCDs = [1]; // CD 1 က အလကားရတာမို့ အရင်ကတည်းက ဝယ်ပြီးသား
+
+// CD Configuration with Updated Song 3
+const CD_CONFIG = {
+  1: {
+    name: "CD 1 - Memories of Kindness",
+    background: "https://i.ibb.co/nMKgKPW5/Grid-Art-20251204-174508065.jpg",
+    png: "https://i.ibb.co/6JPvKxkC/Grid-Art-20251207-165928377.png",
+    music: "https://starlar1.github.io/SC-Event-Season-3/[Blue_Archive]__優しさの記憶_____Memories_of_Kindness__-_Blue_Archive_Ending_Credit_Video__Subtitled_(144p).mp3",
+    cost: 0,
+    coins: 300,
+    duration: 5 * 60 * 60 * 1000 // 5 နာရီ
+  },
+  2: {
+    name: "CD 2 - Target for Love",
+    background: "https://i.ibb.co/QvmWRjwG/Grid-Art-20251204-174452120.jpg",
+    png: "https://i.ibb.co/N0gfLw9/Grid-Art-20251207-165857458.png",
+    music: "https://starlar1.github.io/SC-Event-Season-3/[Blue_Archive]_Main_OST__Target_for_love__Full_ver.(256k).mp3",
+    cost: 1000,
+    coins: 600,
+    duration: 5 * 60 * 60 * 1000
+  },
+  3: {
+    name: "CD 3 - Our Quest",
+    background: "https://i.ibb.co/99hYBTss/Grid-Art-20251205-164803283.jpg",
+    png: "https://i.ibb.co/Q3PKvngv/Grid-Art-20251207-170147460.png",
+    music: "https://starlar1.github.io/SC-Event-Season-3/[Blue_Archive]_Watashitachi_No_Quest_Music_Video___Our_Quest(256k).mp3",
+    cost: 2000,
+    coins: 1000,
+    duration: 5 * 60 * 60 * 1000
+  }
+};
+
+// VIP Configuration
+const VIP_CONFIG = {
+  code: "idolevent7889",
+  accessGranted: false,
+  telegramLink: "https://t.me/Starlar1"
+};
+
+// CD Event Screen HTML Elements တွေဖန်တီးမယ်
+function createCDEventElements() {
+  // CD Event Screen (CD ရွေးပြီးမှပေါ်မယ့်စခရင်)
+  const cdEventScreen = document.createElement('div');
+  cdEventScreen.id = 'cd-event-screen';
+  cdEventScreen.style.cssText = `
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    z-index: 1000;
+    overflow-y: auto;
+  `;
+  
+  cdEventScreen.innerHTML = `
+    <div class="cd-container" style="position:relative; width:100%; height:100%; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:20px; background:rgba(0,0,0,0.6);">
+      <button class="back-btn" id="back-cd-event" style="position:absolute; top:20px; left:20px; padding:8px 16px; font-size:14px; border:none; border-radius:6px; background:#007bff; color:white; cursor:pointer; display:flex; align-items:center; z-index:5;">
+        <span style="margin-right:6px; font-size:16px;"></span> နောက်သို့
+      </button>
+      
+      <div style="text-align:center; margin-top:80px; color:white;">
+        <h2 id="cd-title" style="font-size:24px; margin-bottom:10px;"></h2>
+        <p id="cd-status" style="font-size:14px; opacity:0.8; margin-bottom:20px;"></p>
+        
+        <!-- လှည့်နေတဲ့ CD ပုံ -->
+        <div id="cd-image-container" style="position:relative; width:200px; height:200px; margin:20px auto;">
+          <img id="cd-image" src="" alt="CD" style="width:100%; height:100%; object-fit:contain;">
+        </div>
+        
+        <!-- Timer Display -->
+        <div id="cd-timer" style="background:rgba(0,0,0,0.7); padding:15px; border-radius:10px; margin:20px auto; max-width:300px;">
+          <div style="font-size:16px; margin-bottom:10px;">ကျန်ရှိနေသောအချိန်</div>
+          <div id="timer-display" style="font-size:24px; font-weight:bold; color:#ffcc00;">05:00:00</div>
+          <div style="font-size:12px; margin-top:10px; color:#90ee90;">ရရှိမည့်Coins: <span id="cd-coins-reward">0</span></div>
+        </div>
+        
+        <!-- Music Status -->
+        <div id="music-status" style="font-size:12px; color:#ffcc00; margin:10px 0; display:none;">
+          🎵 ဂီတဖွင့်နေဆဲ...
+        </div>
+        
+        <!-- Claim Button -->
+        <button id="claim-cd-coins" class="btn" style="padding:12px 30px; font-size:16px; display:none; margin:20px auto; background:#28a745; color:white; border:none; border-radius:8px; cursor:pointer;">
+          Coins ရယူမည်
+        </button>
+        
+        <!-- Music Error Message -->
+        <div id="music-error" style="display:none; background:rgba(255,0,0,0.2); color:#ff6b6b; padding:10px; border-radius:8px; margin-top:15px; font-size:12px;">
+          ⚠️ ဂီတဖိုင်တွင် ပြဿနာရှိနေပါသည်။ ငွေကြေးယူခြင်းကိုဆက်လက်လုပ်ဆောင်နိုင်ပါသည်။
+        </div>
+      </div>
+    </div>
+  `;
+  
+  // CD START SCREEN (ပွဲစတင်မည်ခလုပ် အောက်နားမှာထားမယ့်စခရင်)
+  const cdStartScreen = document.createElement('div');
+  cdStartScreen.id = 'cd-start-screen';
+  cdStartScreen.style.cssText = `
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-image: url('https://i.ibb.co/RrdFGpw/2cf36ebf11a514cf3280752e5403a894-1.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    z-index: 1001;
+  `;
+  
+  cdStartScreen.innerHTML = `
+    <div style="position:relative; width:100%; height:100%;">
+      <!-- Back Button -->
+      <button class="back-btn" id="back-cd-start" style="position:absolute; top:20px; left:20px; padding:8px 16px; font-size:14px; border:none; border-radius:6px; background:#007bff; color:white; cursor:pointer; display:flex; align-items:center; z-index:5;">
+        <span style="margin-right:6px; font-size:16px;"></span> နောက်သို့
+      </button>
+      
+      <!-- Start Button at Bottom -->
+      <div style="position:absolute; bottom:80px; left:0; width:100%; text-align:center;">
+        <button id="start-cd-event-btn" style="background:linear-gradient(145deg, #FFD700, #FFA500); border:2px solid #FFD700; color:white; padding:12px 30px; font-size:16px; border-radius:8px; cursor:pointer; font-weight:bold; box-shadow:0 4px 15px rgba(255,215,0,0.4); transition:all 0.3s ease;">
+          ပွဲစတင်မည်
+        </button>
+        <p style="font-size:14px; margin-top:10px; color:white; opacity:0.8;">ပွဲစတင်မည်ခလုပ်ကိုနှိပ်ပါ</p>
+      </div>
+    </div>
+  `;
+  
+  // VIP ACCESS SCREEN (VIP Code ထည့်ခိုင်းမယ့်စခရင်)
+  const vipAccessScreen = document.createElement('div');
+  vipAccessScreen.id = 'vip-access-screen';
+  vipAccessScreen.style.cssText = `
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-image: url('https://i.ibb.co/RrdFGpw/2cf36ebf11a514cf3280752e5403a894-1.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    z-index: 1002;
+  `;
+  
+  vipAccessScreen.innerHTML = `
+    <div style="position:relative; width:100%; height:100%;">
+      <!-- Back Button -->
+      <button class="back-btn" id="back-vip-access" style="position:absolute; top:20px; left:20px; padding:8px 16px; font-size:14px; border:none; border-radius:6px; background:#007bff; color:white; cursor:pointer; display:flex; align-items:center; z-index:5;">
+        <span style="margin-right:6px; font-size:16px;">←</span> နောက်သို့
+      </button>
+      
+      <!-- VIP Access Content -->
+      <div style="position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); text-align:center; color:white; width:90%; max-width:350px;">
+        <h2 style="font-size:28px; margin-bottom:20px; text-shadow:0 2px 4px rgba(0,0,0,0.5); color:gold;">VIP Access</h2>
+        <p style="font-size:14px; margin-bottom:25px; opacity:0.8;">Event သို့ဝင်ရန် VIP Code ထည့်ပါ</p>
+        
+        <!-- VIP Code Input -->
+        <div style="background:rgba(0,0,0,0.7); padding:20px; border-radius:12px; margin-bottom:20px;">
+          <input type="text" id="vip-code-input" placeholder="VIP Code ထည့်ပါ" style="width:100%; padding:12px; border:none; border-radius:8px; font-size:14px; text-align:center; margin-bottom:15px; background:rgba(255,255,255,0.9); color:black;">
+          <button id="verify-vip-code" class="btn" style="width:100%; padding:12px; background:#28a745; color:white; border:none; border-radius:8px; font-size:14px; cursor:pointer; font-weight:bold;">Code စစ်မည်</button>
+          
+          <div id="vip-code-result" style="margin-top:15px; padding:10px; border-radius:6px; display:none; font-weight:bold; font-size:12px;"></div>
+        </div>
+        
+        <!-- Buy VIP Button -->
+        <div style="background:rgba(0,0,0,0.7); padding:20px; border-radius:12px; border:2px solid gold;">
+          <h3 style="font-size:18px; margin-bottom:10px; color:gold;">VIP Access ဝယ်မည်</h3>
+          <p style="font-size:12px; margin-bottom:15px; opacity:0.8;">Admin နှင့်ဆက်သွယ်၍ VIP Code ရယူပါ</p>
+          <button id="buy-vip-access" class="btn" style="width:100%; padding:12px; background:linear-gradient(145deg, #FFD700, #FFA500); color:white; border:none; border-radius:8px; font-size:14px; cursor:pointer; font-weight:bold;">
+            VIP ဝယ်မည်
+          </button>
+        </div>
+      </div>
+    </div>
+  `;
+  
+  // CD SELECTION SCREEN (CD ရွေးမယ့်စခရင် - သေးအောင်ပြင်ထားတယ်)
+  const cdSelectionScreen = document.createElement('div');
+  cdSelectionScreen.id = 'cd-selection-screen';
+  cdSelectionScreen.style.cssText = `
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-image: url('https://i.ibb.co/RrdFGpw/2cf36ebf11a514cf3280752e5403a894-1.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    z-index: 1003;
+    overflow-y: auto;
+  `;
+  
+  cdSelectionScreen.innerHTML = `
+    <div style="position:relative; width:100%; min-height:100%; padding:20px; display:flex; flex-direction:column; align-items:center;">
+      <!-- Back Button -->
+      <button class="back-btn" id="back-cd-selection" style="position:absolute; top:20px; left:20px; padding:8px 16px; font-size:14px; border:none; border-radius:6px; background:#007bff; color:white; cursor:pointer; display:flex; align-items:center; z-index:5;">
+        <span style="margin-right:6px; font-size:16px;"></span> နောက်သို့
+      </button>
+      
+      <!-- CD Selection Content - သေးအောင်ပြင်ထားတယ် -->
+      <div style="text-align:center; color:white; width:100%; max-width:320px; margin-top:60px;">
+        <h2 style="font-size:22px; margin-bottom:20px; text-shadow:0 2px 4px rgba(0,0,0,0.5);">CD ရွေးချယ်ပါ</h2>
+        
+        <!-- CD 1 - အလကား -->
+        <div class="cd-option" data-cd="1" style="background:rgba(0,0,0,0.7); border-radius:12px; padding:15px; margin:12px 0; cursor:pointer; transition:all 0.3s ease; border:2px solid transparent;">
+          <div style="display:flex; align-items:center; gap:12px; margin-bottom:12px;">
+            <img src="https://i.ibb.co/6JPvKxkC/Grid-Art-20251207-165928377.png" alt="CD 1" style="width:50px; height:50px; border-radius:50%;">
+            <div style="text-align:left; flex:1;">
+              <h3 style="font-size:16px; margin:0 0 3px 0; color:gold;">CD 1</h3>
+              <div id="cd1-status" style="display:flex; align-items:center; gap:5px;">
+                <p style="font-size:11px; opacity:0.8; margin:0;">Memories of Kindness</p>
+              </div>
+            </div>
+          </div>
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+            <span style="font-size:12px; color:#90ee90;">Free</span>
+            <span style="font-size:12px; color:#ffcc00;">၅နာရီ = 300 Coins ရရှိမည်</span>
+          </div>
+          <button class="select-cd-btn" data-cd="1" style="width:100%; padding:8px; background:#28a745; color:white; border:none; border-radius:6px; cursor:pointer; font-size:13px;">သုံးမည်</button>
+        </div>
+        
+        <!-- CD 2 - ၁၀၀၀ ငွေကြေး -->
+        <div class="cd-option" data-cd="2" style="background:rgba(0,0,0,0.7); border-radius:12px; padding:15px; margin:12px 0; cursor:pointer; transition:all 0.3s ease; border:2px solid transparent;">
+          <div style="display:flex; align-items:center; gap:12px; margin-bottom:12px;">
+            <img src="https://i.ibb.co/N0gfLw9/Grid-Art-20251207-165857458.png" alt="CD 2" style="width:50px; height:50px; border-radius:50%;">
+            <div style="text-align:left; flex:1;">
+              <h3 style="font-size:16px; margin:0 0 3px 0; color:gold;">CD 2</h3>
+              <div id="cd2-status" style="display:flex; align-items:center; gap:5px;">
+                <p style="font-size:11px; opacity:0.8; margin:0;">Target for Love</p>
+              </div>
+            </div>
+          </div>
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+            <span style="font-size:12px; color:#ff6b6b;">၁၀၀၀ Coins</span>
+            <span style="font-size:12px; color:#ffcc00;">၅နာရီ = 600 Coins ရရှ်ိမည်</span>
+          </div>
+          <button class="select-cd-btn" data-cd="2" style="width:100%; padding:8px; background:#007bff; color:white; border:none; border-radius:6px; cursor:pointer; font-size:13px;">သုံးမည်</button>
+        </div>
+        
+        <!-- CD 3 - ၂၀၀၀ ငွေကြေး -->
+        <div class="cd-option" data-cd="3" style="background:rgba(0,0,0,0.7); border-radius:12px; padding:15px; margin:12px 0; cursor:pointer; transition:all 0.3s ease; border:2px solid transparent;">
+          <div style="display:flex; align-items:center; gap:12px; margin-bottom:12px;">
+            <img src="https://i.ibb.co/Q3PKvngv/Grid-Art-20251207-170147460.png" alt="CD 3" style="width:50px; height:50px; border-radius:50%;">
+            <div style="text-align:left; flex:1;">
+              <h3 style="font-size:16px; margin:0 0 3px 0; color:gold;">CD 3</h3>
+              <div id="cd3-status" style="display:flex; align-items:center; gap:5px;">
+                <p style="font-size:11px; opacity:0.8; margin:0;">Our Quest</p>
+              </div>
+            </div>
+          </div>
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+            <span style="font-size:12px; color:#ff6b6b;">၂၀၀၀ Coins </span>
+            <span style="font-size:12px; color:#ffcc00;">၅နာရီ = 1000 Coins ရရှိမည်</span>
+          </div>
+          <button class="select-cd-btn" data-cd="3" style="width:100%; padding:8px; background:#6f42c1; color:white; border:none; border-radius:6px; cursor:pointer; font-size:13px;">သုံးမည်</button>
+        </div>
+        
+        <!-- Note -->
+        <div style="margin-top:20px; font-size:11px; color:#aaa; padding:10px; background:rgba(0,0,0,0.5); border-radius:8px;">
+          <p style="margin:0;">တစ်ခါဝယ်ပြီးရင် အမြဲသုံးနိုင်ပါသည်</p>
+        </div>
+      </div>
+    </div>
+  `;
+  
+  // CD CONFIRMATION SCREEN (CD ဝယ်မည်လား မေးမယ့်စခရင်)
+  const cdConfirmationScreen = document.createElement('div');
+  cdConfirmationScreen.id = 'cd-confirmation-screen';
+  cdConfirmationScreen.style.cssText = `
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.8);
+    z-index: 1004;
+  `;
+  
+  cdConfirmationScreen.innerHTML = `
+    <div style="position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); background:rgba(255,255,255,0.15); backdrop-filter:blur(20px); padding:25px; border-radius:15px; text-align:center; max-width:300px; width:90%; border:2px solid rgba(255,255,255,0.3);">
+      <h3 style="color:#ffcc00; margin-bottom:15px; font-size:20px;">ဝယ်ယူမှုအတည်ပြုခြင်း</h3>
+      <img id="confirm-cd-image" src="" style="width:80px; height:80px; margin-bottom:12px;">
+      <div id="confirm-cd-text" style="font-size:16px; color:white; margin-bottom:18px; line-height:1.4;"></div>
+      <div style="display:flex; gap:10px; margin-top:20px;">
+        <button id="confirm-buy-cd" class="btn" style="flex:1; padding:10px; background:#28a745; color:white; border:none; border-radius:8px; cursor:pointer;">ဝယ်မည်</button>
+        <button id="cancel-buy-cd" class="btn" style="flex:1; padding:10px; background:#dc3545; color:white; border:none; border-radius:8px; cursor:pointer;">မဝယ်တော့ပါ</button>
+      </div>
+    </div>
+  `;
+  
+  // Add to body
+  document.body.appendChild(cdEventScreen);
+  document.body.appendChild(cdStartScreen);
+  document.body.appendChild(vipAccessScreen);
+  document.body.appendChild(cdSelectionScreen);
+  document.body.appendChild(cdConfirmationScreen);
+  
+  // Add CSS Styles
+  const style = document.createElement('style');
+  style.textContent = `
+    #start-cd-event-btn:hover, #buy-vip-access:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(255,215,0,0.6);
+    }
+    
+    #start-cd-event-btn:active, #buy-vip-access:active {
+      transform: translateY(0);
+    }
+    
+    .cd-option:hover {
+      transform: translateY(-3px);
+      border-color: gold !important;
+      box-shadow: 0 5px 20px rgba(255, 215, 0, 0.3) !important;
+    }
+    
+    @keyframes rotateCD {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+    
+    .cd-rotating {
+      animation: rotateCD 10s linear infinite;
+    }
+    
+    #cd-confirmation-screen, #vip-access-screen {
+      backdrop-filter: blur(10px);
+    }
+    
+    .purchased-badge {
+      background: #28a745;
+      color: white;
+      font-size: 10px;
+      padding: 2px 6px;
+      border-radius: 10px;
+      margin-left: 5px;
+    }
+  `;
+  document.head.appendChild(style);
+}
+
+// ကျန်တဲ့ function တွေက အတူတူပါပဲ၊ အောက်မှာ ဆက်ရေးထားတယ်...
+
+// CD Event System ကို စတင်မယ်
+function initializeCDEvent() {
+  createCDEventElements();
+  
+  // သိမ်းထားတဲ့အခြေအနေတွေကို ဖတ်မယ်
+  loadCDState();
+  loadVIPState();
+  loadPurchasedCDs(); // ဝယ်ပြီးသား CD တွေကို ဖတ်မယ်
+  
+  // event listeners တွေချိတ်မယ်
+  setupCDEventListeners();
+  
+  // event image ကို click လုပ်တဲ့အခါ
+  setupEventImageClick();
+  
+  // ရှိပြီးသား CD ကိုစစ်မယ်
+  checkAndStartExistingCD();
+  
+  // MP3 Files တွေရရှိမရှိ စစ်ဆေးမယ်
+  checkMP3FilesAvailability();
+}
+
+// MP3 Files တွေရရှိမရှိ စစ်ဆေးမယ်
+async function checkMP3FilesAvailability() {
+  console.log("🎵 MP3 Files များ ရရှိမရှိ စစ်ဆေးနေပါတယ်...");
+  
+  for (const [cdNumber, config] of Object.entries(CD_CONFIG)) {
+    try {
+      const response = await fetch(config.music, { method: 'HEAD' });
+      if (response.ok) {
+        console.log(`✅ CD ${cdNumber}: "${config.name}" MP3 file ရရှိပါတယ်`);
+      } else {
+        console.warn(`⚠️ CD ${cdNumber}: "${config.name}" MP3 file မရှိပါ`);
+      }
+    } catch (error) {
+      console.error(`❌ CD ${cdNumber}: "${config.name}" MP3 file စစ်ဆေးရာတွင် ပြဿနာရှိ - ${error.message}`);
+    }
+  }
+}
+
+// localStorage ကနေ ဝယ်ပြီးသား CD တွေကို ဖတ်မယ်
+function loadPurchasedCDs() {
+  const savedPurchasedCDs = localStorage.getItem('purchasedCDs');
+  if (savedPurchasedCDs) {
+    purchasedCDs = JSON.parse(savedPurchasedCDs);
+  } else {
+    // Default: CD 1 က အလကားရတာမို့ အရင်ကတည်းက ဝယ်ပြီးသား
+    purchasedCDs = [1];
+    savePurchasedCDs();
+  }
+}
+
+// ဝယ်ပြီးသား CD တွေကို localStorage မှာ သိမ်းမယ်
+function savePurchasedCDs() {
+  localStorage.setItem('purchasedCDs', JSON.stringify(purchasedCDs));
+}
+
+// CD ပြီးသွားတဲ့အခြေအနေကို ဖတ်မယ်
+function loadCDState() {
+  const savedCD = localStorage.getItem('currentCD');
+  const savedStartTime = localStorage.getItem('cdStartTime');
+  const savedEarned = localStorage.getItem('cdCoinsEarned');
+  
+  if (savedCD) {
+    currentCD = parseInt(savedCD);
+    cdStartTime = savedStartTime ? parseInt(savedStartTime) : null;
+    cdCoinsEarned = savedEarned === 'true';
+  }
+}
+
+// VIP အခြေအနေကို ဖတ်မယ်
+function loadVIPState() {
+  const savedVIP = localStorage.getItem('vipAccessGranted');
+  vipCodeEntered = savedVIP === 'true';
+}
+
+// CD အခြေအနေကို သိမ်းမယ်
+function saveCDState() {
+  localStorage.setItem('currentCD', currentCD);
+  localStorage.setItem('cdStartTime', cdStartTime);
+  localStorage.setItem('cdCoinsEarned', cdCoinsEarned);
+}
+
+// VIP အခြေအနေကို သိမ်းမယ်
+function saveVIPState() {
+  localStorage.setItem('vipAccessGranted', vipCodeEntered);
+}
+
+// ရှိပြီးသား CD ကိုစစ်ပြီး စတင်မယ်
+function checkAndStartExistingCD() {
+  if (currentCD && cdStartTime) {
+    const cdConfig = CD_CONFIG[currentCD];
+    const elapsed = Date.now() - cdStartTime;
+    
+    if (elapsed < cdConfig.duration) {
+      console.log('CD ဆက်ပြီး ဖွင့်ထားဆဲပါ');
+    } else if (!cdCoinsEarned) {
+      console.log('CD အချိန်ပြည့်သွားပြီ၊ ငွေကြေးယူဖို့စောင့်နေပါတယ်');
+    } else {
+      resetCDEvent();
+    }
+  }
+}
+
+// CD event ကို ပြန်စမယ် (ငွေကြေးယူပြီးတဲ့အခါ)
+function resetCDEvent() {
+  currentCD = null;
+  cdStartTime = null;
+  cdCoinsEarned = false;
+  saveCDState();
+  
+  stopCDMusic();
+  
+  if (cdTimerInterval) {
+    clearInterval(cdTimerInterval);
+    cdTimerInterval = null;
+  }
+}
+
+// Event listeners တွေကို ချိတ်ဆက်မယ်
+function setupCDEventListeners() {
+  document.addEventListener('click', function(e) {
+    // Start CD Event Button (ပွဲစတင်မည်)
+    if (e.target.id === 'start-cd-event-btn') {
+      // VIP access ကို အရင်စစ်မယ်
+      if (!vipCodeEntered) {
+        // VIP access screen ကိုပြမယ်
+        openVIPAccess();
+      } else {
+        // VIP ရပြီးသား၊ CD selection ကိုပြမယ်
+        openCDSelection();
+      }
+    }
+    
+    // VIP Access Screen buttons
+    if (e.target.id === 'verify-vip-code') {
+      verifyVIPCode();
+    }
+    if (e.target.id === 'buy-vip-access') {
+      buyVIPAccess();
+    }
+    if (e.target.id === 'back-vip-access' || (e.target.closest && e.target.closest('#back-vip-access'))) {
+      closeVIPAccess();
+    }
+    
+    // CD Selection buttons
+    if (e.target.classList.contains('select-cd-btn')) {
+      const cdNumber = parseInt(e.target.getAttribute('data-cd'));
+      
+      // ဝယ်ပြီးသား CD လားစစ်မယ်
+      if (purchasedCDs.includes(cdNumber)) {
+        // ဝယ်ပြီးသား CD ဆို တိုက်ရိုက်သုံးမယ်
+        selectCD(cdNumber);
+      } else {
+        // မဝယ်ရသေးတဲ့ CD ဆို ဝယ်ဖို့ confirmation ပြမယ်
+        showConfirmation(cdNumber);
+      }
+    }
+    
+    // Confirmation buttons
+    if (e.target.id === 'confirm-buy-cd') {
+      confirmBuyCD();
+    }
+    if (e.target.id === 'cancel-buy-cd') {
+      cancelBuyCD();
+    }
+    
+    // Back buttons
+    if (e.target.id === 'back-cd-start' || (e.target.closest && e.target.closest('#back-cd-start'))) {
+      closeCDStart();
+    }
+    if (e.target.id === 'back-cd-selection' || (e.target.closest && e.target.closest('#back-cd-selection'))) {
+      closeCDSelection();
+    }
+    if (e.target.id === 'back-cd-event' || (e.target.closest && e.target.closest('#back-cd-event'))) {
+      closeCDEvent();
+    }
+    
+    // Claim button
+    if (e.target.id === 'claim-cd-coins') {
+      claimCDCoins();
+    }
+  });
+  
+  // VIP code input အတွက် Enter key
+  document.addEventListener('keypress', function(e) {
+    if (e.key === 'Enter' && document.getElementById('vip-code-input')) {
+      verifyVIPCode();
+    }
+  });
+}
+
+// CD Selection Screen ကိုဖွင့်တဲ့အခါ ဝယ်ပြီးသား CD တွေကို update လုပ်မယ်
+function updateCDSelectionScreen() {
+  // CD 1 အတွက်
+  const cd1Status = document.getElementById('cd1-status');
+  if (cd1Status && purchasedCDs.includes(1)) {
+    cd1Status.innerHTML = `<p style="font-size:11px; margin:0; color:#90ee90;">✓ ဝယ်ပြီးပါပြီ</p>`;
+  }
+  
+  // CD 2 အတွက်
+  const cd2Status = document.getElementById('cd2-status');
+  if (cd2Status && purchasedCDs.includes(2)) {
+    cd2Status.innerHTML = `<p style="font-size:11px; margin:0; color:#90ee90;">✓ ဝယ်ပြီးပါပြီ</p>`;
+    const cd2Button = document.querySelector('.select-cd-btn[data-cd="2"]');
+    if (cd2Button) {
+      cd2Button.textContent = 'သုံးမည်';
+      cd2Button.style.background = '#28a745';
+    }
+  }
+  
+  // CD 3 အတွက်
+  const cd3Status = document.getElementById('cd3-status');
+  if (cd3Status && purchasedCDs.includes(3)) {
+    cd3Status.innerHTML = `<p style="font-size:11px; margin:0; color:#90ee90;">✓ ဝယ်ပြီးပါပြီ</p>`;
+    const cd3Button = document.querySelector('.select-cd-btn[data-cd="3"]');
+    if (cd3Button) {
+      cd3Button.textContent = 'သုံးမည်';
+      cd3Button.style.background = '#28a745';
+    }
+  }
+}
+
+// VIP Code ကိုစစ်မယ်
+function verifyVIPCode() {
+  const codeInput = document.getElementById('vip-code-input');
+  const resultDiv = document.getElementById('vip-code-result');
+  
+  if (!codeInput) return;
+  
+  const enteredCode = codeInput.value.trim();
+  
+  if (!enteredCode) {
+    showVIPResult('ကျေးဇူးပြု၍ VIP code ထည့်ပါ', 'error');
+    return;
+  }
+  
+  if (enteredCode === VIP_CONFIG.code) {
+    vipCodeEntered = true;
+    saveVIPState();
+    showVIPResult('✅ VIP Access ခွင့်ပြုချက်ရပါပြီ!', 'success');
+    
+    // ၁.၅ စက္ကန့်ကြာပြီး CD selection ကိုအလိုအလျောက်ဖွင့်မယ်
+    setTimeout(() => {
+      document.getElementById('vip-access-screen').style.display = 'none';
+      document.getElementById('cd-selection-screen').style.display = 'block';
+      updateCDSelectionScreen(); // CD selection screen ကို update လုပ်မယ်
+    }, 1500);
+  } else {
+    showVIPResult('❌ မှားယွင်းသော VIP Code', 'error');
+  }
+}
+
+// VIP result ကိုပြမယ်
+function showVIPResult(message, type) {
+  const resultDiv = document.getElementById('vip-code-result');
+  if (!resultDiv) return;
+  
+  resultDiv.textContent = message;
+  resultDiv.style.display = 'block';
+  resultDiv.style.color = type === 'success' ? '#90ee90' : '#ff6b6b';
+  resultDiv.style.background = type === 'success' ? 'rgba(0, 100, 0, 0.3)' : 'rgba(100, 0, 0, 0.3)';
+  
+  // ၃ စက္ကန့်ကြာပြီး ဖျောက်မယ်
+  setTimeout(() => {
+    resultDiv.style.display = 'none';
+  }, 3000);
+}
+
+// VIP Access ဝယ်မယ်
+function buyVIPAccess() {
+  window.open(VIP_CONFIG.telegramLink, '_blank');
+  alert('VIP access ဝယ်ယူရန် Telegram မှ @Starlar1 ကို ဆက်သွယ်ပါ။');
+}
+
+// CD ဝယ်မယ်လား confirmation ပြမယ်
+function showConfirmation(cdNumber) {
+  const cdConfig = CD_CONFIG[cdNumber];
+  selectedCDForConfirmation = cdNumber;
+  
+  const confirmImage = document.getElementById('confirm-cd-image');
+  const confirmText = document.getElementById('confirm-cd-text');
+  
+  confirmImage.src = cdConfig.png;
+  confirmText.textContent = `CD ${cdNumber} - ${cdConfig.name.split(' - ')[1]} ကို ${cdConfig.cost} ငွေကြေးဖြင့် ဝယ်မည်လား?\n၅ နာရီကြာပြီးနောက် ${cdConfig.coins} ငွေကြေးရရှိမည်။\n(တစ်ခါဝယ်ပြီးရင် အမြဲသုံးနိုင်ပါမည်)`;
+  
+  document.getElementById('cd-confirmation-screen').style.display = 'block';
+}
+
+// CD ဝယ်မယ်ဆိုတာ အတည်ပြုမယ်
+function confirmBuyCD() {
+  if (!selectedCDForConfirmation) return;
+  
+  const cdNumber = selectedCDForConfirmation;
+  const cdConfig = CD_CONFIG[cdNumber];
+  
+  // ငွေကြေးရှိမရှိစစ်မယ်
+  if (coins < cdConfig.cost) {
+    alert(`ဒီ CD ကိုဝယ်ဖို့ ငွေကြေး ${cdConfig.cost} လိုအပ်ပါတယ်!`);
+    document.getElementById('cd-confirmation-screen').style.display = 'none';
+    selectedCDForConfirmation = null;
+    return;
+  }
+  
+  // ငွေကြေးနှုတ်မယ်
+  coins -= cdConfig.cost;
+  if (coinCountElem) coinCountElem.textContent = coins;
+  saveGameState();
+  
+  // ဝယ်ပြီးသား CD list ထဲထည့်မယ်
+  if (!purchasedCDs.includes(cdNumber)) {
+    purchasedCDs.push(cdNumber);
+    savePurchasedCDs();
+  }
+  
+  // confirmation screen ကိုပိတ်မယ်
+  document.getElementById('cd-confirmation-screen').style.display = 'none';
+  
+  // CD ကိုရွေးမယ်
+  selectCD(cdNumber);
+  
+  selectedCDForConfirmation = null;
+}
+
+// CD ဝယ်တာကို ပယ်ဖျက်မယ်
+function cancelBuyCD() {
+  document.getElementById('cd-confirmation-screen').style.display = 'none';
+  selectedCDForConfirmation = null;
+}
+
+// Event image ကို click လုပ်တဲ့အခါ
+function setupEventImageClick() {
+  setTimeout(() => {
+    const eventsScreen = document.getElementById('events-screen');
+    if (eventsScreen) {
+      const images = eventsScreen.querySelectorAll('img');
+      if (images.length >= 2) {
+        const secondImage = images[1];
+        secondImage.style.cursor = 'pointer';
+        
+        secondImage.removeEventListener('click', handleEventImageClick);
+        secondImage.addEventListener('click', handleEventImageClick);
+        
+        secondImage.addEventListener('mouseenter', () => {
+          secondImage.style.transform = 'scale(1.02)';
+          secondImage.style.transition = 'transform 0.3s ease';
+        });
+        
+        secondImage.addEventListener('mouseleave', () => {
+          secondImage.style.transform = 'scale(1)';
+        });
+      }
+    }
+  }, 1000);
+}
+
+// Event Image Click ကိုကိုင်တွယ်မယ်
+function handleEventImageClick() {
+  // Active CD ရှိမရှိစစ်မယ်
+  if (currentCD && cdStartTime) {
+    const cdConfig = CD_CONFIG[currentCD];
+    const elapsed = Date.now() - cdStartTime;
+    
+    if (elapsed < cdConfig.duration) {
+      // CD ဆက်ပြီး ဖွင့်နေဆဲ၊ CD event screen ကိုတိုက်ရိုက်ပြမယ်
+      startCDEvent();
+      return;
+    } else if (elapsed >= cdConfig.duration && !cdCoinsEarned) {
+      // အချိန်ပြည့်သွားပြီး ငွေကြေးမယူရသေး၊ CD event screen ကိုပြမယ်
+      startCDEvent();
+      return;
+    }
+  }
+  
+  // Active CD မရှိဘူး (ဒါမှမဟုတ်) ငွေကြေးယူပြီးသား၊ start screen ကိုပြမယ်
+  openCDStart();
+}
+
+// CD Start Screen ကိုဖွင့်မယ်
+function openCDStart() {
+  document.getElementById('cd-start-screen').style.display = 'block';
+  document.getElementById('events-screen').style.display = 'none';
+}
+
+// CD Start Screen ကိုပိတ်မယ်
+function closeCDStart() {
+  document.getElementById('cd-start-screen').style.display = 'none';
+  document.getElementById('events-screen').style.display = 'block';
+}
+
+// VIP Access Screen ကိုဖွင့်မယ်
+function openVIPAccess() {
+  document.getElementById('cd-start-screen').style.display = 'none';
+  document.getElementById('vip-access-screen').style.display = 'block';
+}
+
+// VIP Access Screen ကိုပိတ်မယ်
+function closeVIPAccess() {
+  document.getElementById('vip-access-screen').style.display = 'none';
+  document.getElementById('cd-start-screen').style.display = 'block';
+}
+
+// CD Selection Screen ကိုဖွင့်မယ်
+function openCDSelection() {
+  document.getElementById('cd-start-screen').style.display = 'none';
+  document.getElementById('cd-selection-screen').style.display = 'block';
+  updateCDSelectionScreen(); // Screen ကိုဖွင့်တိုင်း update လုပ်မယ်
+}
+
+// CD Selection Screen ကိုပိတ်မယ်
+function closeCDSelection() {
+  document.getElementById('cd-selection-screen').style.display = 'none';
+  
+  // VIP status အလိုက် ဘယ် screen ကိုပြန်ပြရမလဲဆုံးဖြတ်မယ်
+  if (vipCodeEntered) {
+    document.getElementById('cd-start-screen').style.display = 'block';
+  } else {
+    document.getElementById('vip-access-screen').style.display = 'block';
+  }
+}
+
+// CD ကိုရွေးမယ်
+function selectCD(cdNumber) {
+  const cdConfig = CD_CONFIG[cdNumber];
+  
+  // လက်ရှိ CD ကိုသတ်မှတ်မယ်
+  currentCD = cdNumber;
+  cdStartTime = Date.now();
+  cdCoinsEarned = false;
+  
+  saveCDState();
+  
+  startCDEvent();
+}
+
+// CD Event ကိုစတင်မယ်
+function startCDEvent() {
+  if (!currentCD) return;
+  
+  const cdConfig = CD_CONFIG[currentCD];
+  
+  const cdEventScreen = document.getElementById('cd-event-screen');
+  const cdTitle = document.getElementById('cd-title');
+  const cdImage = document.getElementById('cd-image');
+  const cdCoinsReward = document.getElementById('cd-coins-reward');
+  const musicStatus = document.getElementById('music-status');
+  const musicError = document.getElementById('music-error');
+  
+  // Reset error messages
+  if (musicError) musicError.style.display = 'none';
+  if (musicStatus) {
+    musicStatus.style.display = 'block';
+    musicStatus.textContent = 'ပွဲစတင်ပြုလုပ်နေပါသည်...';
+  }
+  
+  cdEventScreen.style.backgroundImage = `url('${cdConfig.background}')`;
+  cdImage.src = cdConfig.png;
+  cdTitle.textContent = cdConfig.name;
+  cdCoinsReward.textContent = cdConfig.coins;
+  
+  cdImage.classList.add('cd-rotating');
+  
+  // တခြား screen တွေအားလုံးကိုပိတ်မယ်
+  document.getElementById('cd-start-screen').style.display = 'none';
+  document.getElementById('vip-access-screen').style.display = 'none';
+  document.getElementById('cd-selection-screen').style.display = 'none';
+  document.getElementById('cd-confirmation-screen').style.display = 'none';
+  
+  // CD event screen ကိုပြမယ်
+  cdEventScreen.style.display = 'block';
+  
+  // MP3 ဂီတဖွင့်မယ်
+  playCDMusic();
+  
+  updateCDTimer();
+  if (cdTimerInterval) clearInterval(cdTimerInterval);
+  cdTimerInterval = setInterval(updateCDTimer, 1000);
+}
+
+// CD Timer ကို update လုပ်မယ်
+function updateCDTimer() {
+  if (!currentCD || !cdStartTime) return;
+  
+  const cdConfig = CD_CONFIG[currentCD];
+  const now = Date.now();
+  const elapsed = now - cdStartTime;
+  const remaining = cdConfig.duration - elapsed;
+  
+  const timerDisplay = document.getElementById('timer-display');
+  const claimButton = document.getElementById('claim-cd-coins');
+  const statusText = document.getElementById('cd-status');
+  
+  if (remaining <= 0) {
+    timerDisplay.textContent = "00:00:00";
+    timerDisplay.style.color = "#90ee90";
+    if (statusText) statusText.textContent = "Coins ယူဖို့ အဆင်သင့်ဖြစ်ပါပြီ!";
+    if (claimButton) claimButton.style.display = 'block';
+    
+    stopCDMusic();
+    
+    // Music status ကိုပြောင်းမယ်
+    const musicStatus = document.getElementById('music-status');
+    if (musicStatus) {
+      musicStatus.textContent = ' ပွဲပြီးဆုံးပါပြီ';
+    }
+  } else {
+    const hours = Math.floor(remaining / (1000 * 60 * 60));
+    const minutes = Math.floor((remaining % (1000 * 60 * 60)) / (1000 * 60));
+    const seconds = Math.floor((remaining % (1000 * 60)) / 1000);
+    
+    timerDisplay.textContent = 
+      `${hours.toString().padStart(2, '0')}:` +
+      `${minutes.toString().padStart(2, '0')}:` +
+      `${seconds.toString().padStart(2, '0')}`;
+    
+    timerDisplay.style.color = "#ffcc00";
+    if (statusText) statusText.textContent = `⏳ ${cdConfig.name} ဖွင့်နေဆဲ...`;
+    if (claimButton) claimButton.style.display = 'none';
+    
+    // Music status update
+    const musicStatus = document.getElementById('music-status');
+    if (musicStatus) {
+      const percentComplete = Math.round((elapsed / cdConfig.duration) * 100);
+      musicStatus.textContent = ` ပွဲစတင်နေဆဲ (${percentComplete}%)`;
+    }
+  }
+}
+
+// CD ငွေကြေးကိုယူမယ်
+function claimCDCoins() {
+  if (!currentCD || cdCoinsEarned) return;
+  
+  const cdConfig = CD_CONFIG[currentCD];
+  
+  coins += cdConfig.coins;
+  if (coinCountElem) coinCountElem.textContent = coins;
+  cdCoinsEarned = true;
+  
+  saveGameState();
+  saveCDState();
+  
+  alert(`🎉 ဂုဏ်ယူပါတယ်! ${cdConfig.name} မှ ${cdConfig.coins} Coins ရရှိပါတယ်!`);
+  
+  resetCDEvent();
+  
+  closeCDEvent();
+}
+
+// CD ဂီတကိုဖွင့်မယ်
+function playCDMusic() {
+  if (!currentCD) return;
+  
+  const cdConfig = CD_CONFIG[currentCD];
+  
+  // အရင်ဖွင့်ထားတဲ့ဂီတရှိရင် ပိတ်မယ်
+  if (cdMusic) {
+    cdMusic.pause();
+    cdMusic = null;
+  }
+  
+  // MP3 ဖိုင်ကိုဖွင့်မယ်
+  cdMusic = new Audio(cdConfig.music);
+  cdMusic.loop = true;
+  cdMusic.volume = 0.5;
+  
+  // MP3 ဖိုင်ဖွင့်တဲ့အခါ
+  cdMusic.addEventListener('canplaythrough', () => {
+    console.log(`✅ CD ${currentCD} MP3 ဖိုင်ကို ဖွင့်နိုင်ပါပြီ`);
+    const musicStatus = document.getElementById('music-status');
+    if (musicStatus) {
+      musicStatus.textContent = 'ပွဲစတင်နေဆဲ...';
+    }
+    
+    const musicError = document.getElementById('music-error');
+    if (musicError) {
+      musicError.style.display = 'none';
+    }
+  });
+  
+  // MP3 ဖိုင်မရှိရင်
+  cdMusic.addEventListener('error', (e) => {
+    console.error(`❌ CD ${currentCD} MP3 ဖိုင်ဖွင့်ရာတွင် ပြဿနာရှိနေ:`, e);
+    
+    const musicStatus = document.getElementById('music-status');
+    if (musicStatus) {
+      musicStatus.textContent = '⚠️ ဂီတဖိုင်တွင် ပြဿနာရှိနေပါသည်';
+      musicStatus.style.color = '#ff6b6b';
+    }
+    
+    const musicError = document.getElementById('music-error');
+    if (musicError) {
+      musicError.style.display = 'block';
+    }
+  });
+  
+  // ဂီတဖွင့်ကြည့်မယ်
+  cdMusic.play().catch(e => {
+    console.log('ဂီတဖွင့်ရာတွင် ပြဿနာရှိနေ:', e);
+    
+    // User interaction required error ဆိုရင်
+    if (e.name === 'NotAllowedError') {
+      const musicStatus = document.getElementById('music-status');
+      if (musicStatus) {
+        musicStatus.textContent = '🔇 ဂီတကို မဖွင့်ရသေးပါ (အသံခွင့်ပြုချက်လိုအပ်သည်)';
+        musicStatus.style.color = '#ffcc00';
+      }
+    }
+  });
+}
+
+// CD ဂီတကိုရပ်မယ်
+function stopCDMusic() {
+  if (cdMusic) {
+    cdMusic.pause();
+    cdMusic.currentTime = 0;
+    cdMusic = null;
+  }
+}
+
+// CD Event Screen ကိုပိတ်မယ်
+function closeCDEvent() {
+  if (currentCD && cdStartTime) {
+    const cdConfig = CD_CONFIG[currentCD];
+    const elapsed = Date.now() - cdStartTime;
+    
+    if (elapsed >= cdConfig.duration) {
+      stopCDMusic();
+    }
+  }
+  
+  const cdImage = document.getElementById('cd-image');
+  if (cdImage) {
+    cdImage.classList.remove('cd-rotating');
+  }
+  
+  if (cdTimerInterval) {
+    clearInterval(cdTimerInterval);
+    cdTimerInterval = null;
+  }
+  
+  document.getElementById('cd-event-screen').style.display = 'none';
+  
+  // အမြဲ Events screen ကိုပြန်သွားမယ်
+  document.getElementById('events-screen').style.display = 'block';
+}
+
+// Events Back Button ကိုပြင်ဆင်မယ်
+function modifyEventsBackButton() {
+  setTimeout(() => {
+    const backEventsBtn = document.getElementById('back-events');
+    if (backEventsBtn) {
+      const newBackBtn = backEventsBtn.cloneNode(true);
+      backEventsBtn.parentNode.replaceChild(newBackBtn, backEventsBtn);
+      
+      newBackBtn.addEventListener('click', () => {
+        document.getElementById('cd-event-screen').style.display = 'none';
+        document.getElementById('cd-start-screen').style.display = 'none';
+        document.getElementById('vip-access-screen').style.display = 'none';
+        document.getElementById('cd-selection-screen').style.display = 'none';
+        document.getElementById('cd-confirmation-screen').style.display = 'none';
+        
+        stopCDMusic();
+        
+        if (cdTimerInterval) {
+          clearInterval(cdTimerInterval);
+          cdTimerInterval = null;
+        }
+        
+        const cdImage = document.getElementById('cd-image');
+        if (cdImage) {
+          cdImage.classList.remove('cd-rotating');
+        }
+        
+        document.getElementById('events-screen').style.display = 'none';
+        document.getElementById('main-screen').style.display = 'block';
+      });
+    }
+  }, 1500);
+}
+
+// ===== PAGE LOAD မှာ INITIALIZE လုပ်မယ် =====
+document.addEventListener('DOMContentLoaded', function() {
+  initializeCDEvent();
+  modifyEventsBackButton();
+  
+  // MP3 files တွေကို preload လုပ်မယ်
+  console.log("🎵 MP3 Files တွေကို ကြိုတင်ဖွင့်နေပါတယ်...");
+  setTimeout(() => {
+    for (let i = 1; i <= 3; i++) {
+      const audio = new Audio();
+      audio.src = CD_CONFIG[i].music;
+      audio.preload = 'metadata';
+    }
+  }, 2000);
 });
 
  </script>
