@@ -1,4 +1,4 @@
-<meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><!DOCTYPE html>
+<meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><!DOCTYPE html>
 <html lang="my">
 <head>
 <meta charset="UTF-8">
@@ -11369,6 +11369,574 @@ document.addEventListener('DOMContentLoaded', function() {
       audio.preload = 'metadata';
     }
   }, 2000);
+});
+
+// =============================================
+// XO GAME - VIP CODE REQUIRED VERSION (FINAL)
+// =============================================
+
+let xoGameState = {
+    board: ['', '', '', '', '', '', '', '', ''],
+    currentPlayer: 'X',
+    gameActive: false,
+    gamesPlayedToday: parseInt(localStorage.getItem('xoGamesPlayedToday') || '0'),
+    lastPlayDate: localStorage.getItem('xoLastPlayDate') || '',
+    prizeCoins: 800,
+    vipCodeEntered: localStorage.getItem('xoVipCode') === 'vipxgame6756' || false,
+    vipCode: 'vipxgame6756',
+    maxGamesPer5Hours: 5,
+    lastGameTime: localStorage.getItem('xoLastGameTime') || null
+};
+
+// Check if 5 hours have passed
+function checkTimeLimit() {
+    const now = Date.now();
+    const lastGameTime = parseInt(localStorage.getItem('xoLastGameTime') || '0');
+    
+    if (!lastGameTime) return true;
+    
+    const fiveHoursInMs = 5 * 60 * 60 * 1000;
+    return (now - lastGameTime) >= fiveHoursInMs;
+}
+
+// Reset games played if 5 hours have passed
+function resetGamesIfNeeded() {
+    const now = Date.now();
+    const lastGameTime = parseInt(localStorage.getItem('xoLastGameTime') || '0');
+    
+    if (!lastGameTime) return;
+    
+    const fiveHoursInMs = 5 * 60 * 60 * 1000;
+    if ((now - lastGameTime) >= fiveHoursInMs) {
+        localStorage.setItem('xoGamesPlayedToday', '0');
+        localStorage.setItem('xoLastGameTime', now.toString());
+        xoGameState.gamesPlayedToday = 0;
+    }
+}
+
+// Create XO Game Screen
+function createXOGameScreen() {
+    if (document.getElementById('xo-game-screen')) return;
+    
+    const xoGameHTML = `
+    <div id="xo-game-screen" style="display: none; width: 100vw; height: 100vh; background-image: url('https://i.ibb.co/BHVffh7p/0e73f3d6e0de7c71200ed9a3c68d78fd.jpg'); background-size: cover; background-position: center; background-repeat: no-repeat; position: fixed; top: 0; left: 0; z-index: 2000; color: white;">
+      <button class="back-btn" id="back-xo-game" style="position: absolute; top: 20px; left: 20px; padding: 8px 16px; font-size: 14px; border: none; border-radius: 6px; background: #007bff; color: white; cursor: pointer;">
+        Back
+      </button>
+      
+      <div style="display: flex; flex-direction: column; align-items: center; height: 100%; padding: 20px; padding-top: 80px;">
+        
+        <div id="vip-screen" style="width: 100%; flex: 1; display: flex; flex-direction: column; justify-content: center; align-items: center;">
+          <h1 style="font-size: 36px; color: #FFD700; margin-bottom: 40px; text-shadow: 0 2px 10px rgba(0,0,0,0.9);">XO GAME</h1>
+          
+          <div style="background: rgba(0, 0, 0, 0.8); padding: 30px; border-radius: 15px; width: 100%; max-width: 400px; border: 2px solid #FF00FF; margin-bottom: 20px;">
+            <h2 style="color: #FF00FF; margin-bottom: 20px; font-size: 24px; text-align: center;">VIP CODE ထည့်ရန်</h2>
+            
+            <input type="text" id="vip-code-input-main" placeholder="VIP Code ရိုက်ထည့်ပါ" style="width: 100%; padding: 12px; border: none; border-radius: 8px; font-size: 16px; background: white; color: black; text-align: center; margin-bottom: 15px;">
+            
+            <button id="submit-vip-code-main" style="width: 100%; padding: 12px; font-size: 18px; border: none; border-radius: 8px; background: #FF00FF; color: white; cursor: pointer; font-weight: bold; margin-bottom: 15px;">
+              Code ထည့်မည်
+            </button>
+            
+            <div id="vip-status" style="font-size: 14px; color: #FF6B6B; text-align: center; padding: 8px; background: rgba(255, 107, 107, 0.1); border-radius: 6px;">
+              VIP Code ထည့်ပြီးမှ ကစားနိုင်ပါမည်
+            </div>
+          </div>
+          
+          <div style="background: rgba(0, 0, 0, 0.7); padding: 20px; border-radius: 10px; width: 100%; max-width: 400px; text-align: center;">
+            <div style="font-size: 16px; color: #aaa; margin-bottom: 15px;">VIP Code မရှိပါက</div>
+            <button id="buy-vip-code-main" style="width: 100%; padding: 12px; font-size: 18px; border: none; border-radius: 10px; background: #007bff; color: white; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px;">
+              <span style="font-weight: bold;">@Starlar1</span>
+              <span>မှ ၀ယ်မည်</span>
+            </button>
+          </div>
+        </div>
+        
+        <div id="start-game-screen" style="display: none; width: 100%; height: 100%; flex-direction: column; align-items: center;">
+          <h1 style="font-size: 36px; color: #FFD700; margin-bottom: 30px; text-shadow: 0 2px 10px rgba(0,0,0,0.9); padding-top: 20px;">XO GAME</h1>
+          
+          <!-- Button moved to VERY BOTTOM -->
+          <div style="flex: 1;"></div>
+          
+          <div style="margin-bottom: 100px; text-align: center; width: 100%;">
+            <button id="start-xo-game" style="padding: 12px 40px; font-size: 20px; background: linear-gradient(145deg, #FFD700, #FFA500); color: white; border: none; border-radius: 12px; cursor: pointer; font-weight: bold; box-shadow: 0 4px 15px rgba(255, 215, 0, 0.5); margin-bottom: 10px; width: 100%; max-width: 300px;">
+              ကစားပွဲစမည်
+            </button>
+            
+            <div id="games-limit-info" style="text-align: center; margin-top: 10px;">
+              <div style="font-size: 12px; color: #FFD700;">
+                ကစားချက်: <span id="games-played-count">${xoGameState.gamesPlayedToday}</span>/5
+              </div>
+              <div style="font-size: 10px; color: #aaa; margin-top: 3px;">
+                5 နာရီအတွင်း 5 ခါသာ
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div id="xo-game-screen-content" style="display: none; width: 100%; flex-direction: column; align-items: center; justify-content: center; height: 100%;">
+          <div id="game-status" style="font-size: 22px; color: #00ffcc; margin-bottom: 25px; font-weight: bold; text-align: center;">
+            သင် X ဖြင့် စတင်ပါ
+          </div>
+          
+          <div id="xo-board" style="display: grid; grid-template-columns: repeat(3, 1fr); grid-template-rows: repeat(3, 1fr); gap: 8px; width: 280px; height: 280px; background: rgba(0, 0, 0, 0.6); padding: 15px; border-radius: 12px; border: 2px solid #FFD700; margin-bottom: 30px;">
+          </div>
+        </div>
+      </div>
+      
+      <div id="xo-win-popup" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 3000; flex-direction: column; justify-content: center; align-items: center;">
+        <div style="background: rgba(0, 0, 0, 0.9); padding: 30px; border-radius: 15px; text-align: center; max-width: 300px; width: 90%; border: 2px solid #FFD700; backdrop-filter: blur(10px);">
+          <h2 id="xo-result-title" style="color: #FFD700; margin-bottom: 20px; font-size: 24px;"></h2>
+          
+          <div id="xo-coins-earned" style="font-size: 20px; font-weight: bold; color: #90ee90; margin-bottom: 25px; display: flex; align-items: center; justify-content: center; gap: 10px;">
+            <img src="https://i.ibb.co/v6q117y5/Grid-Art-20251201-165223815.png" alt="Coin" style="width: 25px; height: 25px;">
+            <span>+800 Coins</span>
+          </div>
+          
+          <button id="xo-play-again" style="background: #007bff; padding: 12px 30px; font-size: 16px; border-radius: 8px; width: 100%; margin-bottom: 10px; color: white; border: none; cursor: pointer;">
+            ထပ်ကစားမည်
+          </button>
+          
+          <button id="xo-back-home" style="background: rgba(255,255,255,0.2); padding: 12px 30px; font-size: 16px; border-radius: 8px; width: 100%; color: white; border: none; cursor: pointer;">
+            Back
+          </button>
+        </div>
+      </div>
+      
+      <div id="games-limit-popup" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 3000; flex-direction: column; justify-content: center; align-items: center;">
+        <div style="background: rgba(0, 0, 0, 0.9); padding: 30px; border-radius: 15px; text-align: center; max-width: 300px; width: 90%; border: 2px solid #FF6B6B; backdrop-filter: blur(10px);">
+          <h2 style="color: #FF6B6B; margin-bottom: 20px; font-size: 24px;">ကန့်သတ်ချက်</h2>
+          
+          <div style="font-size: 18px; color: #FFD700; margin-bottom: 25px;">
+            5 ခါ ကစားပြီးပါပြီ
+          </div>
+          
+          <div style="font-size: 14px; color: #aaa; margin-bottom: 25px;">
+            နောက်တစ်ကြိမ်ကစားရန် 5 နာရီစောင့်ရပါမည်
+          </div>
+          
+          <button id="close-limit-popup" style="background: #007bff; padding: 12px 30px; font-size: 16px; border-radius: 8px; width: 100%; color: white; border: none; cursor: pointer;">
+            နားလိုက်ပါမယ်
+          </button>
+        </div>
+      </div>
+    </div>
+    `;
+    
+    document.body.insertAdjacentHTML('beforeend', xoGameHTML);
+    initializeXOGame();
+}
+
+// Initialize XO Game
+function initializeXOGame() {
+    const xoGameScreen = document.getElementById('xo-game-screen');
+    const backButton = document.getElementById('back-xo-game');
+    const startButton = document.getElementById('start-xo-game');
+    const playAgainButton = document.getElementById('xo-play-again');
+    const backHomeButton = document.getElementById('xo-back-home');
+    const vipCodeInputMain = document.getElementById('vip-code-input-main');
+    const submitVipCodeMain = document.getElementById('submit-vip-code-main');
+    const buyVipCodeMain = document.getElementById('buy-vip-code-main');
+    const closeLimitPopup = document.getElementById('close-limit-popup');
+    const vipScreen = document.getElementById('vip-screen');
+    const startGameScreen = document.getElementById('start-game-screen');
+    const gameScreen = document.getElementById('xo-game-screen-content');
+    const gamesPlayedCount = document.getElementById('games-played-count');
+    
+    resetGamesIfNeeded();
+    
+    backButton.addEventListener('click', () => {
+        xoGameScreen.style.display = 'none';
+        document.getElementById('events-screen').style.display = 'block';
+    });
+    
+    submitVipCodeMain.addEventListener('click', () => {
+        const code = vipCodeInputMain.value.trim();
+        
+        if (code === xoGameState.vipCode) {
+            xoGameState.vipCodeEntered = true;
+            localStorage.setItem('xoVipCode', code);
+            
+            vipScreen.style.display = 'none';
+            startGameScreen.style.display = 'flex';
+            gamesPlayedCount.textContent = xoGameState.gamesPlayedToday;
+            vipCodeInputMain.value = '';
+            
+            setTimeout(() => {
+                startButton.focus();
+            }, 100);
+        } else {
+            alert('❌ VIP Code မှားယွင်းနေပါသည်။');
+            vipCodeInputMain.value = '';
+            vipCodeInputMain.focus();
+        }
+    });
+    
+    startButton.addEventListener('click', () => {
+        if (xoGameState.gamesPlayedToday >= xoGameState.maxGamesPer5Hours) {
+            document.getElementById('games-limit-popup').style.display = 'flex';
+            return;
+        }
+        
+        xoGameState.gamesPlayedToday++;
+        localStorage.setItem('xoGamesPlayedToday', xoGameState.gamesPlayedToday.toString());
+        
+        const now = Date.now();
+        localStorage.setItem('xoLastGameTime', now.toString());
+        xoGameState.lastGameTime = now;
+        
+        gamesPlayedCount.textContent = xoGameState.gamesPlayedToday;
+        
+        startGameScreen.style.display = 'none';
+        gameScreen.style.display = 'flex';
+        
+        startXOGame();
+    });
+    
+    // Play again button - DEDUCT GAME COUNT
+    playAgainButton.addEventListener('click', () => {
+        document.getElementById('xo-win-popup').style.display = 'none';
+        
+        if (xoGameState.gamesPlayedToday >= xoGameState.maxGamesPer5Hours) {
+            document.getElementById('games-limit-popup').style.display = 'flex';
+            return;
+        }
+        
+        // Deduct game count for playing again
+        xoGameState.gamesPlayedToday++;
+        localStorage.setItem('xoGamesPlayedToday', xoGameState.gamesPlayedToday.toString());
+        
+        const now = Date.now();
+        localStorage.setItem('xoLastGameTime', now.toString());
+        xoGameState.lastGameTime = now;
+        
+        // Update display
+        gamesPlayedCount.textContent = xoGameState.gamesPlayedToday;
+        
+        startXOGame();
+    });
+    
+    buyVipCodeMain.addEventListener('click', () => {
+        window.open('https://t.me/Starlar1', '_blank');
+    });
+    
+    backHomeButton.addEventListener('click', () => {
+        document.getElementById('xo-win-popup').style.display = 'none';
+        gameScreen.style.display = 'none';
+        startGameScreen.style.display = 'flex';
+        gamesPlayedCount.textContent = xoGameState.gamesPlayedToday;
+    });
+    
+    closeLimitPopup.addEventListener('click', () => {
+        document.getElementById('games-limit-popup').style.display = 'none';
+    });
+    
+    if (xoGameState.vipCodeEntered) {
+        vipScreen.style.display = 'none';
+        startGameScreen.style.display = 'flex';
+        gamesPlayedCount.textContent = xoGameState.gamesPlayedToday;
+    }
+    
+    vipCodeInputMain.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') {
+            submitVipCodeMain.click();
+        }
+    });
+}
+
+// Start XO Game
+function startXOGame() {
+    resetXOGame();
+    renderXOGameBoard();
+    document.getElementById('game-status').textContent = 'သင် X ဖြင့် စတင်ပါ';
+}
+
+// Render Game Board
+function renderXOGameBoard() {
+    const boardElement = document.getElementById('xo-board');
+    boardElement.innerHTML = '';
+    
+    for (let i = 0; i < 9; i++) {
+        const cell = document.createElement('div');
+        cell.dataset.index = i;
+        cell.style.cssText = `
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 42px;
+            font-weight: bold;
+            cursor: ${xoGameState.gameActive && xoGameState.board[i] === '' ? 'pointer' : 'default'};
+            transition: all 0.2s ease;
+        `;
+        
+        if (xoGameState.gameActive && xoGameState.board[i] === '') {
+            cell.addEventListener('mouseenter', function() {
+                this.style.background = 'rgba(0, 255, 204, 0.2)';
+                this.style.borderColor = '#00ffcc';
+            });
+            
+            cell.addEventListener('mouseleave', function() {
+                this.style.background = 'rgba(255, 255, 255, 0.1)';
+                this.style.borderColor = 'rgba(255, 255, 255, 0.3)';
+            });
+            
+            cell.addEventListener('click', () => handleCellClick(i));
+        }
+        
+        if (xoGameState.board[i] === 'X') {
+            cell.textContent = 'X';
+            cell.style.color = '#00ffcc';
+            cell.style.textShadow = '0 0 8px #00ffcc';
+        } else if (xoGameState.board[i] === 'O') {
+            cell.textContent = 'O';
+            cell.style.color = '#ff6b6b';
+            cell.style.textShadow = '0 0 8px #ff6b6b';
+        }
+        
+        boardElement.appendChild(cell);
+    }
+}
+
+// Handle cell click
+function handleCellClick(index) {
+    if (!xoGameState.gameActive || xoGameState.board[index] !== '') return;
+    
+    xoGameState.board[index] = 'X';
+    renderXOGameBoard();
+    
+    if (checkWinner('X')) {
+        endGame('player');
+        return;
+    }
+    
+    if (xoGameState.board.filter(cell => cell !== '').length === 9) {
+        endGame('draw');
+        return;
+    }
+    
+    setTimeout(makeAIMove, 500);
+}
+
+// AI Move - EASIER AI
+function makeAIMove() {
+    if (!xoGameState.gameActive) return;
+    
+    let moveIndex = -1;
+    
+    // Try to win (less aggressive)
+    moveIndex = findWinningMove('O');
+    
+    // Block player (less aggressive)
+    if (moveIndex === -1) {
+        moveIndex = findWinningMove('X');
+    }
+    
+    // Take center (not always)
+    if (moveIndex === -1 && xoGameState.board[4] === '' && Math.random() > 0.5) {
+        moveIndex = 4;
+    }
+    
+    // Take corners (random)
+    if (moveIndex === -1) {
+        const corners = [0, 2, 6, 8];
+        const availableCorners = corners.filter(index => xoGameState.board[index] === '');
+        if (availableCorners.length > 0 && Math.random() > 0.3) {
+            moveIndex = availableCorners[Math.floor(Math.random() * availableCorners.length)];
+        }
+    }
+    
+    // Random move (easier AI)
+    if (moveIndex === -1) {
+        const emptyCells = [];
+        for (let i = 0; i < 9; i++) {
+            if (xoGameState.board[i] === '') {
+                emptyCells.push(i);
+            }
+        }
+        if (emptyCells.length > 0) {
+            moveIndex = emptyCells[Math.floor(Math.random() * emptyCells.length)];
+        }
+    }
+    
+    if (moveIndex !== -1) {
+        xoGameState.board[moveIndex] = 'O';
+        renderXOGameBoard();
+        
+        if (checkWinner('O')) {
+            endGame('ai');
+        } else if (xoGameState.board.filter(cell => cell !== '').length === 9) {
+            endGame('draw');
+        }
+    }
+}
+
+// Find winning move
+function findWinningMove(player) {
+    const WINNING_COMBINATIONS = [
+        [0, 1, 2], [3, 4, 5], [6, 7, 8],
+        [0, 3, 6], [1, 4, 7], [2, 5, 8],
+        [0, 4, 8], [2, 4, 6]
+    ];
+    
+    for (const combination of WINNING_COMBINATIONS) {
+        const [a, b, c] = combination;
+        const cells = [xoGameState.board[a], xoGameState.board[b], xoGameState.board[c]];
+        
+        const playerCount = cells.filter(cell => cell === player).length;
+        const emptyCount = cells.filter(cell => cell === '').length;
+        
+        if (playerCount === 2 && emptyCount === 1) {
+            if (xoGameState.board[a] === '') return a;
+            if (xoGameState.board[b] === '') return b;
+            if (xoGameState.board[c] === '') return c;
+        }
+    }
+    return -1;
+}
+
+// Check winner
+function checkWinner(player) {
+    const WINNING_COMBINATIONS = [
+        [0, 1, 2], [3, 4, 5], [6, 7, 8],
+        [0, 3, 6], [1, 4, 7], [2, 5, 8],
+        [0, 4, 8], [2, 4, 6]
+    ];
+    
+    for (const combination of WINNING_COMBINATIONS) {
+        const [a, b, c] = combination;
+        if (xoGameState.board[a] === player && 
+            xoGameState.board[b] === player && 
+            xoGameState.board[c] === player) {
+            return true;
+        }
+    }
+    return false;
+}
+
+// End game
+function endGame(result) {
+    xoGameState.gameActive = false;
+    
+    const popup = document.getElementById('xo-win-popup');
+    const resultTitle = document.getElementById('xo-result-title');
+    const coinsEarned = document.getElementById('xo-coins-earned');
+    
+    let coinsWon = 0;
+    
+    switch (result) {
+        case 'player':
+            resultTitle.textContent = '🎉 အနိုင်ရရှိပါသည်!';
+            coinsWon = xoGameState.prizeCoins;
+            coins += coinsWon;
+            coinCountElem.textContent = coins;
+            saveGameState();
+            break;
+            
+        case 'ai':
+            resultTitle.textContent = '😔 ရှုံးနိမ့်ပါသည်';
+            break;
+            
+        case 'draw':
+            resultTitle.textContent = '🤝 သရေကျပါသည်';
+            break;
+    }
+    
+    coinsEarned.innerHTML = `
+        <img src="https://i.ibb.co/v6q117y5/Grid-Art-20251201-165223815.png" alt="Coin" style="width: 25px; height: 25px;">
+        <span>+${coinsWon} Coins</span>
+    `;
+    
+    popup.style.display = 'flex';
+    
+    if (result === 'player' || result === 'ai') {
+        highlightWinningCells(result === 'player' ? 'X' : 'O');
+    }
+}
+
+// Highlight winning cells
+function highlightWinningCells(player) {
+    const WINNING_COMBINATIONS = [
+        [0, 1, 2], [3, 4, 5], [6, 7, 8],
+        [0, 3, 6], [1, 4, 7], [2, 5, 8],
+        [0, 4, 8], [2, 4, 6]
+    ];
+    
+    for (const combination of WINNING_COMBINATIONS) {
+        const [a, b, c] = combination;
+        if (xoGameState.board[a] === player && 
+            xoGameState.board[b] === player && 
+            xoGameState.board[c] === player) {
+            
+            const cells = document.querySelectorAll('#xo-board > div');
+            cells[a].style.background = player === 'X' ? 'rgba(0, 255, 204, 0.3)' : 'rgba(255, 107, 107, 0.3)';
+            cells[a].style.borderColor = player === 'X' ? '#00ffcc' : '#ff6b6b';
+            
+            cells[b].style.background = player === 'X' ? 'rgba(0, 255, 204, 0.3)' : 'rgba(255, 107, 107, 0.3)';
+            cells[b].style.borderColor = player === 'X' ? '#00ffcc' : '#ff6b6b';
+            
+            cells[c].style.background = player === 'X' ? 'rgba(0, 255, 204, 0.3)' : 'rgba(255, 107, 107, 0.3)';
+            cells[c].style.borderColor = player === 'X' ? '#00ffcc' : '#ff6b6b';
+            
+            break;
+        }
+    }
+}
+
+// Reset game
+function resetXOGame() {
+    xoGameState.board = ['', '', '', '', '', '', '', '', ''];
+    xoGameState.currentPlayer = 'X';
+    xoGameState.gameActive = true;
+}
+
+// =============================================
+// EVENT 3 CLICK HANDLER
+// =============================================
+
+document.addEventListener('DOMContentLoaded', function() {
+    createXOGameScreen();
+    
+    setTimeout(() => {
+        const eventsImages = document.querySelectorAll('#events-screen img');
+        if (eventsImages.length >= 3) {
+            const thirdImage = eventsImages[2];
+            
+            thirdImage.style.cursor = 'pointer';
+            thirdImage.addEventListener('click', function() {
+                document.getElementById('events-screen').style.display = 'none';
+                
+                const xoGameScreen = document.getElementById('xo-game-screen');
+                xoGameScreen.style.display = 'block';
+                
+                resetGamesIfNeeded();
+                
+                if (xoGameState.vipCodeEntered) {
+                    document.getElementById('vip-screen').style.display = 'none';
+                    document.getElementById('start-game-screen').style.display = 'flex';
+                    document.getElementById('xo-game-screen-content').style.display = 'none';
+                    document.getElementById('games-played-count').textContent = xoGameState.gamesPlayedToday;
+                } else {
+                    document.getElementById('vip-screen').style.display = 'flex';
+                    document.getElementById('start-game-screen').style.display = 'none';
+                    document.getElementById('xo-game-screen-content').style.display = 'none';
+                }
+                
+                resetXOGame();
+            });
+            
+            thirdImage.addEventListener('mouseenter', function() {
+                this.style.transform = 'scale(1.02)';
+                this.style.transition = 'transform 0.3s ease';
+            });
+            
+            thirdImage.addEventListener('mouseleave', function() {
+                this.style.transform = 'scale(1)';
+            });
+        }
+    }, 1000);
 });
 
  </script>
