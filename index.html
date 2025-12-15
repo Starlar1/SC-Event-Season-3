@@ -1,4 +1,4 @@
-<meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><!DOCTYPE html>
+<meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><!DOCTYPE html>
 <html lang="my">
 <head>
 <meta charset="UTF-8">
@@ -11937,6 +11937,180 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         }
     }, 1000);
+});
+
+
+// ===== CIRCLE & TRIANGLE CLICK EFFECT =====
+document.addEventListener('DOMContentLoaded', function() {
+    // Create effects container
+    const effectsContainer = document.createElement('div');
+    effectsContainer.id = 'circle-triangle-effects';
+    effectsContainer.style.cssText = `
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        z-index: 99999;
+        overflow: hidden;
+    `;
+    document.body.appendChild(effectsContainer);
+
+    // Click effect
+    document.addEventListener('click', function(e) {
+        const x = e.clientX;
+        const y = e.clientY;
+        
+        // Create white circle
+        const whiteCircle = document.createElement('div');
+        whiteCircle.style.cssText = `
+            position: fixed;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: radial-gradient(circle, 
+                rgba(255,255,255,0.95) 0%,
+                rgba(255,255,255,0.6) 50%,
+                rgba(255,255,255,0.2) 100%);
+            left: ${x}px;
+            top: ${y}px;
+            pointer-events: none;
+            z-index: 100000;
+            transform: translate(-50%, -50%);
+            animation: whiteCircleExpand 0.6s ease-out forwards;
+            box-shadow: 0 0 25px rgba(255,255,255,0.8);
+        `;
+        effectsContainer.appendChild(whiteCircle);
+
+        // Create blue circle inside white circle
+        const blueCircle = document.createElement('div');
+        blueCircle.style.cssText = `
+            position: fixed;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: radial-gradient(circle, 
+                #1e90ff 0%,
+                #00bfff 60%,
+                #87cefa 100%);
+            left: ${x}px;
+            top: ${y}px;
+            pointer-events: none;
+            z-index: 100001;
+            transform: translate(-50%, -50%);
+            animation: blueCirclePulse 0.8s ease-out forwards;
+            box-shadow: 
+                0 0 20px #1e90ff,
+                0 0 40px #00bfff,
+                inset 0 0 10px #87cefa;
+        `;
+        effectsContainer.appendChild(blueCircle);
+
+        // Create triangles around circles
+        createTriangles(x, y);
+
+        // Remove after animation
+        setTimeout(() => {
+            whiteCircle.remove();
+            blueCircle.remove();
+        }, 800);
+    });
+
+    // Function to create triangles
+    function createTriangles(x, y) {
+        const triangleCount = 8;
+        
+        for (let i = 0; i < triangleCount; i++) {
+            const angle = (i * (360 / triangleCount)) * (Math.PI / 180);
+            const distance = 60;
+            const triangleX = x + Math.cos(angle) * distance;
+            const triangleY = y + Math.sin(angle) * distance;
+            
+            const triangle = document.createElement('div');
+            const size = 8;
+            
+            triangle.style.cssText = `
+                position: fixed;
+                width: ${size}px;
+                height: ${size}px;
+                background: #1e90ff;
+                clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+                left: ${x}px;
+                top: ${y}px;
+                pointer-events: none;
+                z-index: 99998;
+                opacity: 0;
+                transform: translate(-50%, -50%);
+                animation: triangleFly 0.7s ease-out forwards ${i * 0.04}s;
+            `;
+            
+            triangle.style.setProperty('--target-x', `${triangleX - x}px`);
+            triangle.style.setProperty('--target-y', `${triangleY - y}px`);
+            
+            effectsContainer.appendChild(triangle);
+            
+            setTimeout(() => {
+                if (triangle.parentNode) {
+                    triangle.remove();
+                }
+            }, 800);
+        }
+    }
+
+    // Add CSS animations
+    const style = document.createElement('style');
+    style.textContent = `
+        @keyframes whiteCircleExpand {
+            0% {
+                transform: translate(-50%, -50%) scale(0);
+                opacity: 1;
+            }
+            70% {
+                transform: translate(-50%, -50%) scale(1.1);
+                opacity: 0.8;
+            }
+            100% {
+                transform: translate(-50%, -50%) scale(1.5);
+                opacity: 0;
+            }
+        }
+        
+        @keyframes blueCirclePulse {
+            0% {
+                transform: translate(-50%, -50%) scale(0);
+                opacity: 1;
+            }
+            50% {
+                transform: translate(-50%, -50%) scale(1.1);
+                opacity: 0.9;
+            }
+            100% {
+                transform: translate(-50%, -50%) scale(1);
+                opacity: 0;
+            }
+        }
+        
+        @keyframes triangleFly {
+            0% {
+                transform: translate(-50%, -50%) scale(0.5);
+                opacity: 0;
+            }
+            20% {
+                opacity: 1;
+            }
+            100% {
+                transform: 
+                    translate(
+                        calc(-50% + var(--target-x)),
+                        calc(-50% + var(--target-y))
+                    ) 
+                    scale(0.7);
+                opacity: 0;
+            }
+        }
+    `;
+    document.head.appendChild(style);
 });
 
  </script>
